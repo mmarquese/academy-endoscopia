@@ -108,10 +108,16 @@ nav.menu a:hover, nav.menu a.ativo{color:var(--verde); border-color:var(--verde)
 .hamburguer span::before{top:-6px} .hamburguer span::after{top:6px}
 
 /* ---------- Hero ---------- */
+@keyframes panelGlow{
+  0%,100%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+}
 .hero{position:relative; overflow:hidden; background:var(--verde-tenue)}
-.hero::after{ /* campo verde à direita */
-  content:''; position:absolute; inset:0 0 0 52%;
-  background:linear-gradient(155deg, var(--verde) 0%, #14532B 100%);
+.hero::after{
+  content:''; position:absolute; inset:0 0 0 52%; z-index:1;
+  background:linear-gradient(-45deg,#0D3520,#1F6F3C,#25863F,#14532B,#0D3520);
+  background-size:400% 400%;
+  animation:panelGlow 12s ease infinite;
 }
 .hero-grid{position:relative; z-index:2; display:grid; grid-template-columns:1.05fr .95fr; gap:3rem; align-items:center; padding:4.5rem 0 4rem}
 .hero h1 span{color:var(--verde)}
@@ -122,8 +128,34 @@ nav.menu a:hover, nav.menu a.ativo{color:var(--verde); border-color:var(--verde)
   font-size:.8rem; font-weight:600; color:var(--verde);
   background:#fff; border:1px solid var(--linha); border-radius:999px; padding:.4rem .85rem;
 }
-/* painel do lado direito */
-.painel{color:#fff}
+/* painel do lado direito — glass card sobre o gradiente animado */
+@keyframes ringPulse{
+  0%,100%{transform:scale(1);opacity:.22}
+  50%{transform:scale(1.2);opacity:.08}
+}
+@keyframes ringPulse2{
+  0%,100%{transform:scale(1);opacity:.15}
+  50%{transform:scale(1.28);opacity:.05}
+}
+.painel{
+  color:#fff; position:relative; overflow:hidden; isolation:isolate;
+}
+/* Anéis decorativos pulsantes */
+.painel::before{
+  content:''; position:absolute; z-index:0;
+  width:340px; height:340px; border-radius:50%;
+  border:1.5px solid var(--verde-claro);
+  right:-90px; top:-90px;
+  animation:ringPulse 5s ease-in-out infinite;
+}
+.painel::after{
+  content:''; position:absolute; z-index:0;
+  width:210px; height:210px; border-radius:50%;
+  border:1.5px solid var(--verde-claro);
+  right:-35px; top:-35px;
+  animation:ringPulse2 5s ease-in-out 1.4s infinite;
+}
+.painel>*{position:relative; z-index:1}
 .painel .eyebrow{color:var(--verde-claro)}
 .painel h2{font-size:clamp(1.5rem,2.4vw,2rem); margin-bottom:1rem}
 .painel ul{list-style:none; padding:0; margin:1.4rem 0 0; display:grid; gap:.7rem}
@@ -254,28 +286,114 @@ footer{background:var(--verde); color:rgba(255,255,255,.85); padding:2.5rem 0 1.
 .post-card{
   background:#fff; border:1px solid var(--linha); border-radius:var(--raio);
   overflow:hidden; box-shadow:var(--sombra);
-  transition:transform .2s ease; display:flex; flex-direction:column;
+  transition:transform .2s ease, box-shadow .2s ease; display:flex; flex-direction:column;
 }
-.post-card:hover{transform:translateY(-6px)}
+.post-card:hover{transform:translateY(-6px); box-shadow:0 20px 48px -16px rgba(27,35,32,.22)}
 .post-cabeca{
-  padding:1rem; display:flex; flex-direction:column; align-items:center; gap:.4rem;
-  text-align:center;
+  padding:.75rem 1rem; display:flex; align-items:center; gap:.6rem;
 }
-.post-logo-mini{width:40px; height:40px}
-.post-visual{
-  padding:2rem 1rem; text-align:center; flex:1; display:flex;
-  flex-direction:column; justify-content:center; align-items:center;
+.post-logo-mini{width:32px; height:32px; flex:none}
+.post-cabeca-info{display:flex; flex-direction:column; gap:.05rem}
+.post-cabeca-info strong{font-size:.72rem; letter-spacing:.07em; font-weight:700}
+.post-cabeca-info span{font-size:.65rem; opacity:.7}
+.post-img{
+  width:100%; aspect-ratio:4/3; object-fit:cover; display:block;
 }
+.post-body{
+  padding:1.1rem 1.1rem .9rem; flex:1; display:flex; flex-direction:column; gap:.5rem;
+}
+.post-body h3{font-size:1.05rem; color:var(--tinta); margin:0}
+.post-body p{font-size:.9rem; color:var(--tinta-suave); margin:0; flex:1}
 .btn-post{
-  display:inline-block; padding:.7rem 1.2rem; border-radius:999px;
-  text-decoration:none; color:#fff; font-weight:600; font-size:.9rem;
-  font-family:var(--display); transition:opacity .2s ease;
+  display:inline-flex; align-items:center; gap:.4rem;
+  padding:.6rem 1.1rem; border-radius:999px;
+  text-decoration:none; color:#fff; font-weight:700; font-size:.85rem;
+  font-family:var(--display); transition:opacity .2s ease, transform .15s ease;
+  align-self:flex-start; margin-top:.3rem;
 }
-.btn-post:hover{opacity:.85}
+.btn-post:hover{opacity:.88; transform:translateY(-1px)}
 .post-rodape{
-  padding:1rem; border-top:1px solid var(--linha); background:rgba(242,244,241,.6);
-  font-size:.8rem; line-height:1.5; color:var(--tinta-suave);
+  padding:.85rem 1.1rem; border-top:1px solid var(--linha);
+  background:var(--verde-tenue); display:grid; gap:.5rem;
 }
+.post-rodape-nome{
+  font-family:var(--display); font-weight:700; font-size:.82rem; color:var(--verde);
+}
+.post-rodape-contatos{
+  display:grid; gap:.28rem;
+}
+.post-rodape-linha{
+  display:flex; align-items:center; gap:.4rem;
+  font-size:.75rem; color:var(--tinta-suave); text-decoration:none;
+}
+.post-rodape-linha:hover{color:var(--verde)}
+.post-rodape-linha svg{width:13px; height:13px; color:var(--verde); flex:none}
+.post-rodape-redes{
+  display:flex; gap:.5rem; margin-top:.3rem; flex-wrap:wrap;
+}
+.post-rodape-redes a{
+  display:inline-flex; align-items:center; gap:.3rem;
+  font-size:.7rem; color:var(--tinta-suave); text-decoration:none;
+  background:#fff; border:1px solid var(--linha); border-radius:999px;
+  padding:.25rem .6rem; transition:border-color .15s, color .15s;
+}
+.post-rodape-redes a:hover{border-color:var(--verde); color:var(--verde)}
+.post-rodape-redes svg{width:11px; height:11px}
+
+/* ---------- Equipamentos Atendidos ---------- */
+.equip{background:var(--branco); border-block:1px solid var(--linha)}
+.equip-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(160px, 1fr));
+  gap:.75rem; margin-top:2rem;
+}
+.equip-item{
+  display:flex; flex-direction:column; align-items:center; gap:.6rem;
+  padding:1.2rem .8rem; border:1px solid var(--linha); border-radius:var(--raio);
+  background:var(--verde-tenue); text-align:center;
+  transition:border-color .2s, transform .2s;
+}
+.equip-item:hover{border-color:var(--verde); transform:translateY(-3px)}
+.equip-item svg{width:32px; height:32px; color:var(--verde); flex:none}
+.equip-item span{font-size:.82rem; font-weight:600; color:var(--tinta); line-height:1.3}
+.equip-marcas{
+  margin-top:2rem; padding:1.4rem 1.8rem;
+  background:var(--verde); border-radius:var(--raio);
+  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
+}
+.equip-marcas svg{width:24px; height:24px; color:var(--verde-claro); flex:none}
+.equip-marcas p{margin:0; color:#fff; font-size:.97rem}
+.equip-marcas strong{color:var(--verde-claro)}
+
+/* ---------- Diferenciais ---------- */
+.diferenciais{background:var(--papel)}
+.dif-grid{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem;
+}
+.dif-card{
+  padding:1.6rem; border-radius:var(--raio);
+  border:1px solid var(--linha); background:var(--branco);
+  box-shadow:var(--sombra); display:flex; flex-direction:column; gap:.7rem;
+  transition:transform .2s, border-color .2s;
+}
+.dif-card:hover{transform:translateY(-4px); border-color:var(--verde-claro)}
+.dif-ico{
+  width:48px; height:48px; border-radius:14px;
+  background:linear-gradient(-45deg,#0D3520,#1F6F3C,#25863F,#14532B);
+  background-size:300% 300%; animation:panelGlow 8s ease infinite;
+  display:grid; place-items:center; color:#fff; flex:none;
+}
+.dif-ico svg{width:24px; height:24px}
+.dif-card h3{font-size:1.05rem; margin:0}
+.dif-card p{font-size:.92rem; color:var(--tinta-suave); margin:0; flex:1}
+.dif-destaque{
+  grid-column:1/-1; background:var(--verde-tenue);
+  border:1px solid #CFE6C4; border-radius:var(--raio);
+  padding:1.6rem 2rem; display:flex; align-items:center; gap:1.6rem; flex-wrap:wrap;
+}
+.dif-destaque svg{width:36px; height:36px; color:var(--verde); flex:none}
+.dif-destaque div p{margin:.25rem 0 0; color:var(--tinta-suave); font-size:.95rem}
+.dif-destaque div strong{font-family:var(--display); font-size:1.1rem; color:var(--verde)}
 
 /* ---------- Responsivo ---------- */
 @media (max-width:960px){
@@ -285,6 +403,7 @@ footer{background:var(--verde); color:rgba(255,255,255,.85); padding:2.5rem 0 1.
   .sobre-grid,.contato-grid{grid-template-columns:1fr}
   .cards{grid-template-columns:repeat(2,1fr)}
   .etapas{grid-template-columns:repeat(2,1fr)}
+  .dif-grid{grid-template-columns:repeat(2,1fr)}
 }
 @media (max-width:700px){
   nav.menu{
@@ -299,6 +418,8 @@ footer{background:var(--verde); color:rgba(255,255,255,.85); padding:2.5rem 0 1.
   .cards{grid-template-columns:1fr}
   .etapas{grid-template-columns:1fr}
   .posts-grid{grid-template-columns:1fr}
+  .dif-grid{grid-template-columns:1fr}
+  .equip-grid{grid-template-columns:repeat(2,1fr)}
   .numeros{grid-template-columns:1fr 1fr}
 }
 @media (prefers-reduced-motion:reduce){
@@ -333,11 +454,13 @@ footer{background:var(--verde); color:rgba(255,255,255,.85); padding:2.5rem 0 1.
       <a href="#inicio" class="ativo">Início</a>
       <a href="#sobre">Sobre nós</a>
       <a href="#servicos">Serviços</a>
+      <a href="#equipamentos">Equipamentos</a>
+      <a href="#diferenciais">Diferenciais</a>
       <a href="#processo">Como trabalhamos</a>
       <a href="#contato">Contato</a>
     </nav>
 
-    <a class="btn btn-zap" href="https://wa.me/5521982075767?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20falar%20com%20a%20Academia%20da%20Endoscopia." target="_blank" rel="noopener">
+    <a class="btn btn-zap" href="https://wa.me/message/OPOYNROABKXIH1" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.6-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-1 1-1.3 2.4-.5 4.1.8 1.7 1.9 3.2 3.5 4.5 2.5 2.1 4.4 2.1 5.6 1.9.7-.1 1.8-.8 2.1-1.5.3-.8.3-1.4.2-1.5-.1-.1-.3-.2-.5-.3z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
       Fale no WhatsApp
     </a>
@@ -357,9 +480,9 @@ footer{background:var(--verde); color:rgba(255,255,255,.85); padding:2.5rem 0 1.
         hospitalares — com laudo técnico, rastreabilidade e conformidade com a ANVISA.
       </p>
       <div class="hero-acoes">
-        <a class="btn btn-zap" href="https://wa.me/5521982075767?text=Ol%C3%A1%21%20Gostaria%20de%20solicitar%20um%20atendimento%20t%C3%A9cnico." target="_blank" rel="noopener">
+        <a class="btn btn-zap" href="https://wa.me/message/OPOYNROABKXIH1" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-5.8c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.6-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-1 1-1.3 2.4-.5 4.1.8 1.7 1.9 3.2 3.5 4.5 2.5 2.1 4.4 2.1 5.6 1.9.7-.1 1.8-.8 2.1-1.5.3-.8.3-1.4.2-1.5-.1-.1-.3-.2-.5-.3z"/></svg>
-          (21) 98207-5767
+          (21) 98742-1073
         </a>
         <a class="btn btn-linha" href="#servicos">Ver serviços</a>
       </div>
@@ -474,6 +597,138 @@ footer{background:var(--verde); color:rgba(255,255,255,.85); padding:2.5rem 0 1.
   </div>
 </section>
 
+<!-- ===================== EQUIPAMENTOS ATENDIDOS ===================== -->
+<section class="equip" id="equipamentos">
+  <div class="wrap">
+    <div class="cabeca reveal">
+      <p class="eyebrow">Equipamentos atendidos</p>
+      <h2>Todas as ópticas. Todas as marcas.</h2>
+      <p>Atendemos equipamentos endoscópicos rígidos e flexíveis de todas as fabricantes, com diagnóstico preciso e peças originais.</p>
+    </div>
+    <div class="equip-grid reveal">
+      <div class="equip-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3v14M5 12h14"/></svg>
+        <span>Endoscópios Flexíveis</span>
+      </div>
+      <div class="equip-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 4l16 16M4 20L20 4"/><circle cx="12" cy="12" r="3"/></svg>
+        <span>Endoscópios Rígidos</span>
+      </div>
+      <div class="equip-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2v20M2 12h20"/><rect x="7" y="7" width="10" height="10" rx="2"/></svg>
+        <span>Laparoscópios</span>
+      </div>
+      <div class="equip-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg>
+        <span>Artroscópios</span>
+      </div>
+      <div class="equip-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 12h18M3 6l9 6 9-6"/><path d="M3 18l9-6 9 6"/></svg>
+        <span>Cistoscópios</span>
+      </div>
+      <div class="equip-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><ellipse cx="12" cy="12" rx="10" ry="6"/><path d="M2 12c0 4 4.5 7 10 7s10-3 10-7"/></svg>
+        <span>Histeroscópios</span>
+      </div>
+      <div class="equip-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6v6l4 2"/></svg>
+        <span>Nefroscópios</span>
+      </div>
+      <div class="equip-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <span>Ureteroscópios</span>
+      </div>
+      <div class="equip-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg>
+        <span>Neuroendoscópios</span>
+      </div>
+      <div class="equip-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M8 6V4m8 2V4M2 10h20"/></svg>
+        <span>Processadoras de Imagem</span>
+      </div>
+      <div class="equip-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M2 12h4M18 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        <span>Fontes de Luz</span>
+      </div>
+      <div class="equip-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg>
+        <span>Câmeras e Placas Eletrônicas</span>
+      </div>
+      <div class="equip-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 22V12m0-10v10m-6 0H2m20 0h-4M6 12a6 6 0 0 1 12 0"/></svg>
+        <span>Bombas Pressurizadoras</span>
+      </div>
+      <div class="equip-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 12h4l3-9 4 18 3-9h6"/></svg>
+        <span>Óticas para Vídeo Cirurgia</span>
+      </div>
+    </div>
+
+    <div class="equip-marcas reveal">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1 3 5v6c0 5.6 3.8 10.7 9 12 5.2-1.3 9-6.4 9-12V5zm0 10.9h7c-.5 4.1-3.2 7.8-7 8.9z"/></svg>
+      <p><strong>Atendemos todas as marcas</strong> — Olympus, Pentax, Fujinon, Karl Storz, Stryker, Wolf e outras. Laboratório próprio em <strong>Rio de Janeiro</strong> com atendimento para <strong>todo o Brasil</strong>, via retirada, Correios ou entrega presencial.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DIFERENCIAIS ===================== -->
+<section class="diferenciais" id="diferenciais">
+  <div class="wrap">
+    <div class="cabeca reveal">
+      <p class="eyebrow">Por que nos escolher</p>
+      <h2>Diferenciais que fazem a diferença</h2>
+      <p>Estrutura, tecnologia e atendimento pensados para dar segurança e agilidade em cada etapa do serviço.</p>
+    </div>
+    <div class="dif-grid reveal">
+
+      <div class="dif-card">
+        <div class="dif-ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-4H7l5-8v4h4z"/></svg></div>
+        <h3>Repair Online</h3>
+        <p>Acompanhe em tempo real o andamento da sua ordem de serviço. Você recebe por e-mail um documento com dados da empresa, do equipamento, fotos e status atualizado de cada etapa.</p>
+      </div>
+
+      <div class="dif-card">
+        <div class="dif-ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zm-.5 1.5 1.96 2.5H17V9.5h2.5zM6 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm2.22-3c-.55-.61-1.33-1-2.22-1s-1.67.39-2.22 1H3V6h12v9H8.22zM18 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg></div>
+        <h3>Retirada e Entrega</h3>
+        <p>Solicite a retirada do equipamento diretamente pelo WhatsApp. Também aceitamos envio pelos Correios ou entrega presencial em nosso escritório no Rio de Janeiro.</p>
+      </div>
+
+      <div class="dif-card">
+        <div class="dif-ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg></div>
+        <h3>Orçamento Detalhado</h3>
+        <p>Após a avaliação, enviamos orçamento completo com fotos, descrição dos problemas encontrados e serviços a realizar — sem custo de análise para o cliente.</p>
+      </div>
+
+      <div class="dif-card">
+        <div class="dif-ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 0 0 8 20c9 0 15.09-8.17 11-16zm-1.38 9.38A12.75 12.75 0 0 1 9 20c-.39 0-.74-.04-1.08-.1C9.2 17.4 11.39 15 17 14c-.56 1.19-1.3 2.24-2.38 3.38z"/></svg></div>
+        <h3>Laboratório Próprio</h3>
+        <p>Infraestrutura moderna e completa no Rio de Janeiro, com equipamentos especializados para diagnóstico preciso e reparo de ópticas rígidas e flexíveis de todas as marcas.</p>
+      </div>
+
+      <div class="dif-card">
+        <div class="dif-ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+        <h3>Atendimento Nacional</h3>
+        <p>Atendemos hospitais, clínicas e consultórios em todo o Brasil. Nossa logística permite receber, reparar e devolver equipamentos de qualquer estado com segurança e rastreabilidade.</p>
+      </div>
+
+      <div class="dif-card">
+        <div class="dif-ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4 6 2.67V11c0 3.47-2.34 6.79-6 7.93-3.66-1.14-6-4.46-6-7.93V7.67L12 5z"/></svg></div>
+        <h3>Conformidade e Garantia</h3>
+        <p>Todos os serviços são entregues com laudo técnico, rastreabilidade completa e conformidade com as normas da ANVISA. Peças originais e garantia sobre cada intervenção realizada.</p>
+      </div>
+
+      <div class="dif-destaque">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 12h-2v-2h2v2zm0-4h-2V6h2v4z"/></svg>
+        <div>
+          <strong>Previsão de entrega confirmada após aprovação</strong>
+          <p>Após você aprovar o orçamento, estabelecemos um prazo de entrega claro. Simples, transparente e sem surpresas — do chamado ao laudo, você está no controle.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- ===================== PROCESSO ===================== -->
 <section class="processo" id="processo">
   <div class="wrap">
@@ -501,6 +756,7 @@ footer{background:var(--verde); color:rgba(255,255,255,.85); padding:2.5rem 0 1.
       <p>Dicas, cases e novidades sobre manutenção de equipamentos endoscópicos.</p>
     </div>
     <div class="posts-grid reveal">
+
       <!-- POST 1: Manutenção Preventiva -->
       <article class="post-card">
         <div class="post-cabeca" style="background:#4A5350">
@@ -509,74 +765,130 @@ footer{background:var(--verde); color:rgba(255,255,255,.85); padding:2.5rem 0 1.
             <path d="M32 10 50 18 32 26 14 18z" fill="rgba(255,255,255,.6)"/>
             <path d="M22 23v8c0 3 4.5 5.5 10 5.5s10-2.5 10-5.5v-8" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
           </svg>
-          <h4 style="margin:0; color:#fff; font-size:.75rem; letter-spacing:.08em; font-weight:700">ACADEMIA DA ENDOSCOPIA</h4>
+          <div class="post-cabeca-info">
+            <strong style="color:#fff">ACADEMIA DA ENDOSCOPIA</strong>
+            <span style="color:rgba(255,255,255,.65)">Manutenção preventiva</span>
+          </div>
         </div>
-        <div class="post-visual" style="background:#D1E5C8">
-          <svg viewBox="0 0 100 100" fill="none" stroke="#4A7C59" stroke-width="3.5" stroke-linecap="round" width="60" height="60">
-            <circle cx="35" cy="45" r="8"/>
-            <path d="M60 25L45 40M60 40L50 50"/>
-            <path d="M25 65L75 65"/>
-          </svg>
-          <h3 style="margin:1.2rem 0 .4rem; color:#4A5350; font-size:1.15rem; font-weight:700">Manutenção Preventiva</h3>
-          <p style="margin:0 0 1.2rem; color:#667068; font-size:.95rem">Evite paradas no meio do procedimento</p>
-          <a href="https://wa.me/5521987421073" class="btn-post" style="background:#2E9E4F; color:#fff">Saiba mais</a>
+        <img
+          class="post-img"
+          src="https://images.unsplash.com/photo-1576671081837-49000212a370?w=560&h=380&fit=crop&q=80"
+          alt="Técnico realizando manutenção preventiva em equipamento endoscópico"
+          loading="lazy"
+        >
+        <div class="post-body">
+          <h3>Manutenção Preventiva</h3>
+          <p>Inspeções programadas que evitam paradas no meio do procedimento e prolongam a vida útil do seu endoscópio.</p>
+          <a href="https://wa.me/message/OPOYNROABKXIH1" target="_blank" rel="noopener" class="btn-post" style="background:#2E9E4F">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm4.5 12.4c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.6-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-1 1-1.3 2.4-.5 4.1.8 1.7 1.9 3.2 3.5 4.5 2.5 2.1 4.4 2.1 5.6 1.9.7-.1 1.8-.8 2.1-1.5.3-.8.3-1.4.2-1.5-.1-.1-.3-.2-.5-.3z"/></svg>
+            Solicitar serviço
+          </a>
         </div>
         <div class="post-rodape">
-          <div style="display:grid; gap:.3rem">
-            <strong style="color:#4A7C59; font-size:.85rem">Sergio Almeida • Diretor</strong>
-            <div style="display:flex; gap:.8rem; font-size:.75rem; color:#667068; flex-wrap:wrap">
-              <span>📞 Tel: 21 98742-1073</span>
-              <span>💬 WhatsApp: 21 98207-5767</span>
-            </div>
-            <div style="display:flex; gap:.8rem; font-size:.75rem; color:#667068; flex-wrap:wrap; margin-top:.3rem">
-              <a href="mailto:academiadaendoscopia@gmail.com" style="text-decoration:none; color:#667068">✉️ academiadaendoscopia@gmail.com</a>
-            </div>
-            <div style="display:flex; gap:.6rem; margin-top:.4rem; font-size:.7rem">
-              <a href="https://instagram.com/academiadaendoscopia" target="_blank" rel="noopener" title="Instagram" style="color:#667068; text-decoration:none">📷 @academiadaendoscopia</a>
-              <a href="https://linkedin.com/company/academiadaendoscopia" target="_blank" rel="noopener" title="LinkedIn" style="color:#667068; text-decoration:none">in/academiadaendoscopia</a>
-              <a href="https://facebook.com/academiadaendoscopia" target="_blank" rel="noopener" title="Facebook" style="color:#667068; text-decoration:none">f/academiadaendoscopia</a>
-            </div>
+          <span class="post-rodape-nome">Sergio Almeida • Diretor</span>
+          <div class="post-rodape-contatos">
+            <a href="tel:+5521987421073" class="post-rodape-linha">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>
+              (21) 98742-1073
+            </a>
+            <a href="https://wa.me/message/OPOYNROABKXIH1" target="_blank" rel="noopener" class="post-rodape-linha">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm4.5 12.4c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.6-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-1 1-1.3 2.4-.5 4.1.8 1.7 1.9 3.2 3.5 4.5 2.5 2.1 4.4 2.1 5.6 1.9.7-.1 1.8-.8 2.1-1.5.3-.8.3-1.4.2-1.5-.1-.1-.3-.2-.5-.3z"/></svg>
+              WhatsApp Business
+            </a>
+            <a href="mailto:academiadaendoscopia@gmail.com" class="post-rodape-linha">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5z"/></svg>
+              academiadaendoscopia@gmail.com
+            </a>
+          </div>
+          <div class="post-rodape-redes">
+            <a href="https://www.instagram.com/academiadaendoscopia?igsh=MW9td2syMGFiMm93NA==" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.9c-.1 3.2-1.6 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1s-3.6 0-4.9-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9C2.4 3.9 3.9 2.4 7.1 2.3 8.4 2.2 8.8 2.2 12 2.2zm0 3.2A6.6 6.6 0 1 0 18.6 12 6.6 6.6 0 0 0 12 5.4zm0 10.9A4.3 4.3 0 1 1 16.3 12 4.3 4.3 0 0 1 12 16.3zm6.9-11.1a1.5 1.5 0 1 0 1.5 1.5 1.5 1.5 0 0 0-1.5-1.5z"/></svg>
+              Instagram
+            </a>
+            <a href="https://youtube.com/@academiadaendoscopia?si=TrQlg4GxQpfhGSNB" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.8 8s-.2-1.4-.8-2c-.8-.8-1.6-.8-2-.9C16.8 5 12 5 12 5s-4.8 0-7 .1c-.4.1-1.2.1-2 .9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.5c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.8.8 2.3.9C6.8 19 12 19 12 19s4.8 0 7-.2c.4-.1 1.2-.1 2-.9.6-.6.8-2 .8-2s.2-1.6.2-3.2v-1.5C22 9.6 21.8 8 21.8 8zM9.7 14.5v-5.5l5.5 2.8-5.5 2.7z"/></svg>
+              YouTube
+            </a>
+            <a href="https://www.linkedin.com/in/academia-da-endoscopia-995bbb49?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.1a4.2 4.2 0 0 1 3.8-2.1c4 0 4.8 2.6 4.8 6V21h-4v-5.7c0-1.4 0-3.1-1.9-3.1s-2.2 1.5-2.2 3V21H9z"/></svg>
+              LinkedIn
+            </a>
+            <a href="https://www.facebook.com/share/1DScQhNhCn/?mibextid=wwXIfr" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              Facebook
+            </a>
+            <a href="https://www.threads.com/@academiadaendoscopia?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.473 12.01v-.017c.027-3.579.877-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.018 5.1.724 6.997 2.1 1.85 1.344 3.1 3.289 3.714 5.76l-2.857.7c-.44-1.843-1.3-3.28-2.554-4.232-1.27-.966-2.953-1.466-5-1.48-2.917.02-5.147.916-6.626 2.665-1.451 1.718-2.19 4.138-2.213 7.19.023 3.052.762 5.473 2.213 7.19 1.479 1.75 3.708 2.645 6.626 2.665 1.894-.013 3.484-.42 4.73-1.21 1.37-.87 2.15-2.1 2.55-3.96.13-.6.2-1.27.21-2v-.56h-7.46v-2.77h10.36v2.77c0 .96-.08 1.87-.24 2.72-.52 2.49-1.72 4.36-3.57 5.55-1.72 1.11-3.91 1.68-6.51 1.7z"/></svg>
+              Threads
+            </a>
           </div>
         </div>
       </article>
 
       <!-- POST 2: Treinamento -->
       <article class="post-card">
-        <div class="post-cabeca" style="background:#E8F5E3">
+        <div class="post-cabeca" style="background:#E8F5E3; border-bottom:1px solid #CFE6C4">
           <svg class="post-logo-mini" viewBox="0 0 64 64" aria-hidden="true">
             <circle cx="32" cy="32" r="28" fill="none" stroke="#1F6F3C" stroke-width="2" opacity=".5"/>
             <path d="M32 10 50 18 32 26 14 18z" fill="#1F6F3C"/>
             <path d="M22 23v8c0 3 4.5 5.5 10 5.5s10-2.5 10-5.5v-8" fill="none" stroke="#2E9E4F" stroke-width="2"/>
           </svg>
-          <h4 style="margin:0; color:#1F6F3C; font-size:.75rem; letter-spacing:.08em; font-weight:700">ACADEMIA DA ENDOSCOPIA</h4>
+          <div class="post-cabeca-info">
+            <strong style="color:#1F6F3C">ACADEMIA DA ENDOSCOPIA</strong>
+            <span style="color:#4A7C59">Treinamento e capacitação</span>
+          </div>
         </div>
-        <div class="post-visual" style="background:#D1E5C8">
-          <svg viewBox="0 0 100 100" fill="none" stroke="#2E9E4F" stroke-width="3.5" stroke-linecap="round" width="60" height="60">
-            <path d="M30 50L50 35L70 50"/>
-            <rect x="30" y="50" width="40" height="32" rx="3"/>
-            <circle cx="42" cy="62" r="3" fill="#2E9E4F"/>
-            <circle cx="58" cy="62" r="3" fill="#2E9E4F"/>
-            <path d="M50 50v32"/>
-          </svg>
-          <h3 style="margin:1.2rem 0 .4rem; color:#1F6F3C; font-size:1.15rem; font-weight:700">Treinamento</h3>
-          <p style="margin:0 0 1.2rem; color:#4A7C59; font-size:.95rem">Capacite sua equipe técnica</p>
-          <a href="https://wa.me/5521987421073" class="btn-post" style="background:#2E9E4F; color:#fff">Saiba mais</a>
+        <img
+          class="post-img"
+          src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=560&h=380&fit=crop&q=80"
+          alt="Profissionais de saúde em treinamento técnico"
+          loading="lazy"
+        >
+        <div class="post-body">
+          <h3>Treinamento e Capacitação</h3>
+          <p>Cursos práticos para equipes médicas e técnicas: manuseio, processamento e conservação corretos dos endoscópios.</p>
+          <a href="https://wa.me/message/OPOYNROABKXIH1" target="_blank" rel="noopener" class="btn-post" style="background:#1F6F3C">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm4.5 12.4c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.6-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-1 1-1.3 2.4-.5 4.1.8 1.7 1.9 3.2 3.5 4.5 2.5 2.1 4.4 2.1 5.6 1.9.7-.1 1.8-.8 2.1-1.5.3-.8.3-1.4.2-1.5-.1-.1-.3-.2-.5-.3z"/></svg>
+            Solicitar treinamento
+          </a>
         </div>
         <div class="post-rodape">
-          <div style="display:grid; gap:.3rem">
-            <strong style="color:#1F6F3C; font-size:.85rem">Sergio Almeida • Diretor</strong>
-            <div style="display:flex; gap:.8rem; font-size:.75rem; color:#4A7C59; flex-wrap:wrap">
-              <span>📞 Tel: 21 98742-1073</span>
-              <span>💬 WhatsApp: 21 98207-5767</span>
-            </div>
-            <div style="display:flex; gap:.8rem; font-size:.75rem; color:#4A7C59; flex-wrap:wrap; margin-top:.3rem">
-              <a href="mailto:academiadaendoscopia@gmail.com" style="text-decoration:none; color:#4A7C59">✉️ academiadaendoscopia@gmail.com</a>
-            </div>
-            <div style="display:flex; gap:.6rem; margin-top:.4rem; font-size:.7rem">
-              <a href="https://instagram.com/academiadaendoscopia" target="_blank" rel="noopener" title="Instagram" style="color:#4A7C59; text-decoration:none">📷 @academiadaendoscopia</a>
-              <a href="https://linkedin.com/company/academiadaendoscopia" target="_blank" rel="noopener" title="LinkedIn" style="color:#4A7C59; text-decoration:none">in/academiadaendoscopia</a>
-              <a href="https://facebook.com/academiadaendoscopia" target="_blank" rel="noopener" title="Facebook" style="color:#4A7C59; text-decoration:none">f/academiadaendoscopia</a>
-            </div>
+          <span class="post-rodape-nome">Sergio Almeida • Diretor</span>
+          <div class="post-rodape-contatos">
+            <a href="tel:+5521987421073" class="post-rodape-linha">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>
+              (21) 98742-1073
+            </a>
+            <a href="https://wa.me/message/OPOYNROABKXIH1" target="_blank" rel="noopener" class="post-rodape-linha">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm4.5 12.4c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.6-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-1 1-1.3 2.4-.5 4.1.8 1.7 1.9 3.2 3.5 4.5 2.5 2.1 4.4 2.1 5.6 1.9.7-.1 1.8-.8 2.1-1.5.3-.8.3-1.4.2-1.5-.1-.1-.3-.2-.5-.3z"/></svg>
+              WhatsApp Business
+            </a>
+            <a href="mailto:academiadaendoscopia@gmail.com" class="post-rodape-linha">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5z"/></svg>
+              academiadaendoscopia@gmail.com
+            </a>
+          </div>
+          <div class="post-rodape-redes">
+            <a href="https://www.instagram.com/academiadaendoscopia?igsh=MW9td2syMGFiMm93NA==" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.9c-.1 3.2-1.6 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1s-3.6 0-4.9-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9C2.4 3.9 3.9 2.4 7.1 2.3 8.4 2.2 8.8 2.2 12 2.2zm0 3.2A6.6 6.6 0 1 0 18.6 12 6.6 6.6 0 0 0 12 5.4zm0 10.9A4.3 4.3 0 1 1 16.3 12 4.3 4.3 0 0 1 12 16.3zm6.9-11.1a1.5 1.5 0 1 0 1.5 1.5 1.5 1.5 0 0 0-1.5-1.5z"/></svg>
+              Instagram
+            </a>
+            <a href="https://youtube.com/@academiadaendoscopia?si=TrQlg4GxQpfhGSNB" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.8 8s-.2-1.4-.8-2c-.8-.8-1.6-.8-2-.9C16.8 5 12 5 12 5s-4.8 0-7 .1c-.4.1-1.2.1-2 .9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.5c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.8.8 2.3.9C6.8 19 12 19 12 19s4.8 0 7-.2c.4-.1 1.2-.1 2-.9.6-.6.8-2 .8-2s.2-1.6.2-3.2v-1.5C22 9.6 21.8 8 21.8 8zM9.7 14.5v-5.5l5.5 2.8-5.5 2.7z"/></svg>
+              YouTube
+            </a>
+            <a href="https://www.linkedin.com/in/academia-da-endoscopia-995bbb49?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.1a4.2 4.2 0 0 1 3.8-2.1c4 0 4.8 2.6 4.8 6V21h-4v-5.7c0-1.4 0-3.1-1.9-3.1s-2.2 1.5-2.2 3V21H9z"/></svg>
+              LinkedIn
+            </a>
+            <a href="https://www.facebook.com/share/1DScQhNhCn/?mibextid=wwXIfr" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              Facebook
+            </a>
+            <a href="https://www.threads.com/@academiadaendoscopia?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.473 12.01v-.017c.027-3.579.877-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.018 5.1.724 6.997 2.1 1.85 1.344 3.1 3.289 3.714 5.76l-2.857.7c-.44-1.843-1.3-3.28-2.554-4.232-1.27-.966-2.953-1.466-5-1.48-2.917.02-5.147.916-6.626 2.665-1.451 1.718-2.19 4.138-2.213 7.19.023 3.052.762 5.473 2.213 7.19 1.479 1.75 3.708 2.645 6.626 2.665 1.894-.013 3.484-.42 4.73-1.21 1.37-.87 2.15-2.1 2.55-3.96.13-.6.2-1.27.21-2v-.56h-7.46v-2.77h10.36v2.77c0 .96-.08 1.87-.24 2.72-.52 2.49-1.72 4.36-3.57 5.55-1.72 1.11-3.91 1.68-6.51 1.7z"/></svg>
+              Threads
+            </a>
           </div>
         </div>
       </article>
@@ -589,37 +901,66 @@ footer{background:var(--verde); color:rgba(255,255,255,.85); padding:2.5rem 0 1.
             <path d="M32 10 50 18 32 26 14 18z" fill="rgba(255,255,255,.6)"/>
             <path d="M22 23v8c0 3 4.5 5.5 10 5.5s10-2.5 10-5.5v-8" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
           </svg>
-          <h4 style="margin:0; color:#fff; font-size:.75rem; letter-spacing:.08em; font-weight:700">ACADEMIA DA ENDOSCOPIA</h4>
+          <div class="post-cabeca-info">
+            <strong style="color:#fff">ACADEMIA DA ENDOSCOPIA</strong>
+            <span style="color:rgba(255,255,255,.65)">Quem somos</span>
+          </div>
         </div>
-        <div class="post-visual" style="background:#D1E5C8">
-          <svg viewBox="0 0 100 100" fill="none" stroke="#2E9E4F" stroke-width="3.5" stroke-linecap="round" width="60" height="60">
-            <rect x="25" y="30" width="50" height="48" rx="4"/>
-            <path d="M40 30v-10M60 30v-10"/>
-            <path d="M50 30v48M35 48h30M35 62h30"/>
-            <circle cx="42" cy="55" r="3" fill="#2E9E4F"/>
-          </svg>
-          <h3 style="margin:1.2rem 0 .4rem; color:#505654; font-size:1.15rem; font-weight:700">Institucional</h3>
-          <p style="margin:0 0 1.2rem; color:#667068; font-size:.95rem">Quem somos - Academia da Endoscopia</p>
-          <a href="#sobre" class="btn-post" style="background:#667068; color:#fff">Saiba mais</a>
+        <img
+          class="post-img"
+          src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=560&h=380&fit=crop&q=80"
+          alt="Hospital ou clínica especializada em endoscopia"
+          loading="lazy"
+        >
+        <div class="post-body">
+          <h3>Institucional</h3>
+          <p>Conheça a Academia da Endoscopia: nossa história, missão e compromisso com a segurança do paciente no Rio de Janeiro.</p>
+          <a href="#sobre" class="btn-post" style="background:#4A5350">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            Saiba mais
+          </a>
         </div>
         <div class="post-rodape">
-          <div style="display:grid; gap:.3rem">
-            <strong style="color:#667068; font-size:.85rem">Sergio Almeida • Diretor</strong>
-            <div style="display:flex; gap:.8rem; font-size:.75rem; color:#667068; flex-wrap:wrap">
-              <span>📞 Tel: 21 98742-1073</span>
-              <span>💬 WhatsApp: 21 98207-5767</span>
-            </div>
-            <div style="display:flex; gap:.8rem; font-size:.75rem; color:#667068; flex-wrap:wrap; margin-top:.3rem">
-              <a href="mailto:academiadaendoscopia@gmail.com" style="text-decoration:none; color:#667068">✉️ academiadaendoscopia@gmail.com</a>
-            </div>
-            <div style="display:flex; gap:.6rem; margin-top:.4rem; font-size:.7rem">
-              <a href="https://instagram.com/academiadaendoscopia" target="_blank" rel="noopener" title="Instagram" style="color:#667068; text-decoration:none">📷 @academiadaendoscopia</a>
-              <a href="https://linkedin.com/company/academiadaendoscopia" target="_blank" rel="noopener" title="LinkedIn" style="color:#667068; text-decoration:none">in/academiadaendoscopia</a>
-              <a href="https://facebook.com/academiadaendoscopia" target="_blank" rel="noopener" title="Facebook" style="color:#667068; text-decoration:none">f/academiadaendoscopia</a>
-            </div>
+          <span class="post-rodape-nome">Sergio Almeida • Diretor</span>
+          <div class="post-rodape-contatos">
+            <a href="tel:+5521987421073" class="post-rodape-linha">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>
+              (21) 98742-1073
+            </a>
+            <a href="https://wa.me/message/OPOYNROABKXIH1" target="_blank" rel="noopener" class="post-rodape-linha">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm4.5 12.4c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.6-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-1 1-1.3 2.4-.5 4.1.8 1.7 1.9 3.2 3.5 4.5 2.5 2.1 4.4 2.1 5.6 1.9.7-.1 1.8-.8 2.1-1.5.3-.8.3-1.4.2-1.5-.1-.1-.3-.2-.5-.3z"/></svg>
+              WhatsApp Business
+            </a>
+            <a href="mailto:academiadaendoscopia@gmail.com" class="post-rodape-linha">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5z"/></svg>
+              academiadaendoscopia@gmail.com
+            </a>
+          </div>
+          <div class="post-rodape-redes">
+            <a href="https://www.instagram.com/academiadaendoscopia?igsh=MW9td2syMGFiMm93NA==" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.9c-.1 3.2-1.6 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1s-3.6 0-4.9-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9C2.4 3.9 3.9 2.4 7.1 2.3 8.4 2.2 8.8 2.2 12 2.2zm0 3.2A6.6 6.6 0 1 0 18.6 12 6.6 6.6 0 0 0 12 5.4zm0 10.9A4.3 4.3 0 1 1 16.3 12 4.3 4.3 0 0 1 12 16.3zm6.9-11.1a1.5 1.5 0 1 0 1.5 1.5 1.5 1.5 0 0 0-1.5-1.5z"/></svg>
+              Instagram
+            </a>
+            <a href="https://youtube.com/@academiadaendoscopia?si=TrQlg4GxQpfhGSNB" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.8 8s-.2-1.4-.8-2c-.8-.8-1.6-.8-2-.9C16.8 5 12 5 12 5s-4.8 0-7 .1c-.4.1-1.2.1-2 .9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.5c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.8.8 2.3.9C6.8 19 12 19 12 19s4.8 0 7-.2c.4-.1 1.2-.1 2-.9.6-.6.8-2 .8-2s.2-1.6.2-3.2v-1.5C22 9.6 21.8 8 21.8 8zM9.7 14.5v-5.5l5.5 2.8-5.5 2.7z"/></svg>
+              YouTube
+            </a>
+            <a href="https://www.linkedin.com/in/academia-da-endoscopia-995bbb49?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.1a4.2 4.2 0 0 1 3.8-2.1c4 0 4.8 2.6 4.8 6V21h-4v-5.7c0-1.4 0-3.1-1.9-3.1s-2.2 1.5-2.2 3V21H9z"/></svg>
+              LinkedIn
+            </a>
+            <a href="https://www.facebook.com/share/1DScQhNhCn/?mibextid=wwXIfr" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              Facebook
+            </a>
+            <a href="https://www.threads.com/@academiadaendoscopia?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.473 12.01v-.017c.027-3.579.877-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.018 5.1.724 6.997 2.1 1.85 1.344 3.1 3.289 3.714 5.76l-2.857.7c-.44-1.843-1.3-3.28-2.554-4.232-1.27-.966-2.953-1.466-5-1.48-2.917.02-5.147.916-6.626 2.665-1.451 1.718-2.19 4.138-2.213 7.19.023 3.052.762 5.473 2.213 7.19 1.479 1.75 3.708 2.645 6.626 2.665 1.894-.013 3.484-.42 4.73-1.21 1.37-.87 2.15-2.1 2.55-3.96.13-.6.2-1.27.21-2v-.56h-7.46v-2.77h10.36v2.77c0 .96-.08 1.87-.24 2.72-.52 2.49-1.72 4.36-3.57 5.55-1.72 1.11-3.91 1.68-6.51 1.7z"/></svg>
+              Threads
+            </a>
           </div>
         </div>
       </article>
+
     </div>
   </div>
 </section>
@@ -639,19 +980,24 @@ footer{background:var(--verde); color:rgba(255,255,255,.85); padding:2.5rem 0 1.
           <div class="pessoa">
             <div class="avatar">SA</div>
             <div><b>Sergio Almeida</b><span>Diretor • Responsável técnico</span></div>
-            <a href="https://wa.me/5521987421073?text=Ol%C3%A1%20Sergio%2C%20vim%20pelo%20site%20da%20Academia%20da%20Endoscopia." target="_blank" rel="noopener">(21) 98742-1073</a>
+            <a href="https://wa.me/5521982075766?text=Ol%C3%A1%20Sergio%2C%20vim%20pelo%20site%20da%20Academia%20da%20Endoscopia." target="_blank" rel="noopener">(21) 98207-5766</a>
+          </div>
+          <div class="pessoa">
+            <div class="avatar">JA</div>
+            <div><b>Jr Almeida</b><span>Técnico</span></div>
+            <a href="https://wa.me/552198745315?text=Ol%C3%A1%20Jr%2C%20vim%20pelo%20site%20da%20Academia%20da%20Endoscopia." target="_blank" rel="noopener">(21) 98745-315</a>
           </div>
           <div class="pessoa">
             <div class="avatar">PP</div>
-            <div><b>Paulo Próspero</b><span>Comercial</span></div>
+            <div><b>Paulo Próspero</b><span>Vendedor</span></div>
             <a href="https://wa.me/5521976286767?text=Ol%C3%A1%20Paulo%2C%20vim%20pelo%20site%20da%20Academia%20da%20Endoscopia." target="_blank" rel="noopener">(21) 97628-6767</a>
           </div>
           <div class="pessoa">
             <div class="avatar" style="background:#25D366;color:#fff">
               <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
             </div>
-            <div><b>WhatsApp geral</b><span>Atendimento comercial</span></div>
-            <a href="https://wa.me/5521982075767" target="_blank" rel="noopener">(21) 98207-5767</a>
+            <div><b>WhatsApp Business</b><span>Atendimento geral</span></div>
+            <a href="https://wa.me/message/OPOYNROABKXIH1" target="_blank" rel="noopener">(21) 98742-1073</a>
           </div>
         </div>
 
@@ -660,13 +1006,25 @@ footer{background:var(--verde); color:rgba(255,255,255,.85); padding:2.5rem 0 1.
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5z"/></svg>
             academiadaendoscopia@gmail.com
           </a>
-          <a href="https://instagram.com/academiadaendoscopia" target="_blank" rel="noopener">
+          <a href="https://www.instagram.com/academiadaendoscopia?igsh=MW9td2syMGFiMm93NA==" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.9c-.1 3.2-1.6 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1s-3.6 0-4.9-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9C2.4 3.9 3.9 2.4 7.1 2.3 8.4 2.2 8.8 2.2 12 2.2zm0 3.2A6.6 6.6 0 1 0 18.6 12 6.6 6.6 0 0 0 12 5.4zm0 10.9A4.3 4.3 0 1 1 16.3 12 4.3 4.3 0 0 1 12 16.3zm6.9-11.1a1.5 1.5 0 1 0 1.5 1.5 1.5 1.5 0 0 0-1.5-1.5z"/></svg>
             @academiadaendoscopia
           </a>
-          <a href="https://linkedin.com/company/academiadaendoscopia" target="_blank" rel="noopener">
+          <a href="https://youtube.com/@academiadaendoscopia?si=TrQlg4GxQpfhGSNB" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.8 8s-.2-1.4-.8-2c-.8-.8-1.6-.8-2-.9C16.8 5 12 5 12 5s-4.8 0-7 .1c-.4.1-1.2.1-2 .9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.5c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.8.8 2.3.9C6.8 19 12 19 12 19s4.8 0 7-.2c.4-.1 1.2-.1 2-.9.6-.6.8-2 .8-2s.2-1.6.2-3.2v-1.5C22 9.6 21.8 8 21.8 8zM9.7 14.5v-5.5l5.5 2.8-5.5 2.7z"/></svg>
+            @academiadaendoscopia
+          </a>
+          <a href="https://www.linkedin.com/in/academia-da-endoscopia-995bbb49?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.1a4.2 4.2 0 0 1 3.8-2.1c4 0 4.8 2.6 4.8 6V21h-4v-5.7c0-1.4 0-3.1-1.9-3.1s-2.2 1.5-2.2 3V21H9z"/></svg>
+            Academia da Endoscopia
+          </a>
+          <a href="https://www.facebook.com/share/1DScQhNhCn/?mibextid=wwXIfr" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
             /academiadaendoscopia
+          </a>
+          <a href="https://www.threads.com/@academiadaendoscopia?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.473 12.01v-.017c.027-3.579.877-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.018 5.1.724 6.997 2.1 1.85 1.344 3.1 3.289 3.714 5.76l-2.857.7c-.44-1.843-1.3-3.28-2.554-4.232-1.27-.966-2.953-1.466-5-1.48-2.917.02-5.147.916-6.626 2.665-1.451 1.718-2.19 4.138-2.213 7.19.023 3.052.762 5.473 2.213 7.19 1.479 1.75 3.708 2.645 6.626 2.665 1.894-.013 3.484-.42 4.73-1.21 1.37-.87 2.15-2.1 2.55-3.96.13-.6.2-1.27.21-2v-.56h-7.46v-2.77h10.36v2.77c0 .96-.08 1.87-.24 2.72-.52 2.49-1.72 4.36-3.57 5.55-1.72 1.11-3.91 1.68-6.51 1.7z"/></svg>
+            @academiadaendoscopia
           </a>
           <a href="#inicio">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 14.5 9 2.5 2.5 0 0 1 12 11.5z"/></svg>
@@ -723,9 +1081,12 @@ footer{background:var(--verde); color:rgba(255,255,255,.85); padding:2.5rem 0 1.
         <span><b>Academia da Endoscopia</b><span>Manutenção em equipamentos médicos hospitalares</span></span>
       </div>
       <div class="sociais">
-        <a href="https://wa.me/5521982075767" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg></a>
-        <a href="https://instagram.com/academiadaendoscopia" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.9c-.1 3.2-1.6 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1s-3.6 0-4.9-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9C2.4 3.9 3.9 2.4 7.1 2.3 8.4 2.2 8.8 2.2 12 2.2zm0 3.2A6.6 6.6 0 1 0 18.6 12 6.6 6.6 0 0 0 12 5.4zm0 10.9A4.3 4.3 0 1 1 16.3 12 4.3 4.3 0 0 1 12 16.3zm6.9-11.1a1.5 1.5 0 1 0 1.5 1.5 1.5 1.5 0 0 0-1.5-1.5z"/></svg></a>
-        <a href="https://linkedin.com/company/academiadaendoscopia" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.1a4.2 4.2 0 0 1 3.8-2.1c4 0 4.8 2.6 4.8 6V21h-4v-5.7c0-1.4 0-3.1-1.9-3.1s-2.2 1.5-2.2 3V21H9z"/></svg></a>
+        <a href="https://wa.me/message/OPOYNROABKXIH1" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg></a>
+        <a href="https://www.instagram.com/academiadaendoscopia?igsh=MW9td2syMGFiMm93NA==" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.9c-.1 3.2-1.6 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1s-3.6 0-4.9-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9C2.4 3.9 3.9 2.4 7.1 2.3 8.4 2.2 8.8 2.2 12 2.2zm0 3.2A6.6 6.6 0 1 0 18.6 12 6.6 6.6 0 0 0 12 5.4zm0 10.9A4.3 4.3 0 1 1 16.3 12 4.3 4.3 0 0 1 12 16.3zm6.9-11.1a1.5 1.5 0 1 0 1.5 1.5 1.5 1.5 0 0 0-1.5-1.5z"/></svg></a>
+        <a href="https://youtube.com/@academiadaendoscopia?si=TrQlg4GxQpfhGSNB" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.8 8s-.2-1.4-.8-2c-.8-.8-1.6-.8-2-.9C16.8 5 12 5 12 5s-4.8 0-7 .1c-.4.1-1.2.1-2 .9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.5c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.8.8 2.3.9C6.8 19 12 19 12 19s4.8 0 7-.2c.4-.1 1.2-.1 2-.9.6-.6.8-2 .8-2s.2-1.6.2-3.2v-1.5C22 9.6 21.8 8 21.8 8zM9.7 14.5v-5.5l5.5 2.8-5.5 2.7z"/></svg></a>
+        <a href="https://www.linkedin.com/in/academia-da-endoscopia-995bbb49?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.1a4.2 4.2 0 0 1 3.8-2.1c4 0 4.8 2.6 4.8 6V21h-4v-5.7c0-1.4 0-3.1-1.9-3.1s-2.2 1.5-2.2 3V21H9z"/></svg></a>
+        <a href="https://www.facebook.com/share/1DScQhNhCn/?mibextid=wwXIfr" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+        <a href="https://www.threads.com/@academiadaendoscopia?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener" aria-label="Threads"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.473 12.01v-.017c.027-3.579.877-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.018 5.1.724 6.997 2.1 1.85 1.344 3.1 3.289 3.714 5.76l-2.857.7c-.44-1.843-1.3-3.28-2.554-4.232-1.27-.966-2.953-1.466-5-1.48-2.917.02-5.147.916-6.626 2.665-1.451 1.718-2.19 4.138-2.213 7.19.023 3.052.762 5.473 2.213 7.19 1.479 1.75 3.708 2.645 6.626 2.665 1.894-.013 3.484-.42 4.73-1.21 1.37-.87 2.15-2.1 2.55-3.96.13-.6.2-1.27.21-2v-.56h-7.46v-2.77h10.36v2.77c0 .96-.08 1.87-.24 2.72-.52 2.49-1.72 4.36-3.57 5.55-1.72 1.11-3.91 1.68-6.51 1.7z"/></svg></a>
         <a href="mailto:academiadaendoscopia@gmail.com" aria-label="E-mail"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5z"/></svg></a>
       </div>
     </div>
@@ -736,13 +1097,13 @@ footer{background:var(--verde); color:rgba(255,255,255,.85); padding:2.5rem 0 1.
   </div>
 </footer>
 
-<a class="flutuante" href="https://wa.me/5521982075767?text=Ol%C3%A1%21%20Vim%20pelo%20site%20da%20Academia%20da%20Endoscopia." target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+<a class="flutuante" href="https://wa.me/message/OPOYNROABKXIH1" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-5.8c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.6-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-1 1-1.3 2.4-.5 4.1.8 1.7 1.9 3.2 3.5 4.5 2.5 2.1 4.4 2.1 5.6 1.9.7-.1 1.8-.8 2.1-1.5.3-.8.3-1.4.2-1.5-.1-.1-.3-.2-.5-.3z"/></svg>
 </a>
 
 <script>
 /* Número único usado no site — trocar aqui altera o formulário */
-var WHATSAPP = '5521982075767';
+var WHATSAPP = '5521987421073';
 
 /* Menu mobile */
 var btnMenu = document.getElementById('btnMenu');
