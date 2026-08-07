@@ -249,8 +249,37 @@ footer{background:var(--verde); color:rgba(255,255,255,.85); padding:2.5rem 0 1.
 .reveal{opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease}
 .reveal.visivel{opacity:1; transform:none}
 
+/* Posts / Redes Sociais */
+.posts-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem}
+.post-card{
+  background:#fff; border:1px solid var(--linha); border-radius:var(--raio);
+  overflow:hidden; box-shadow:var(--sombra);
+  transition:transform .2s ease; display:flex; flex-direction:column;
+}
+.post-card:hover{transform:translateY(-6px)}
+.post-cabeca{
+  padding:1rem; display:flex; flex-direction:column; align-items:center; gap:.4rem;
+  text-align:center;
+}
+.post-logo-mini{width:40px; height:40px}
+.post-visual{
+  padding:2rem 1rem; text-align:center; flex:1; display:flex;
+  flex-direction:column; justify-content:center; align-items:center;
+}
+.btn-post{
+  display:inline-block; padding:.7rem 1.2rem; border-radius:999px;
+  text-decoration:none; color:#fff; font-weight:600; font-size:.9rem;
+  font-family:var(--display); transition:opacity .2s ease;
+}
+.btn-post:hover{opacity:.85}
+.post-rodape{
+  padding:1rem; border-top:1px solid var(--linha); background:rgba(242,244,241,.6);
+  font-size:.8rem; line-height:1.5; color:var(--tinta-suave);
+}
+
 /* ---------- Responsivo ---------- */
 @media (max-width:960px){
+  .posts-grid{grid-template-columns:repeat(2,1fr)}
   .hero::after{inset:auto 0 0 0; height:46%}
   .hero-grid{grid-template-columns:1fr; padding:3.2rem 0 3rem; gap:2.2rem}
   .sobre-grid,.contato-grid{grid-template-columns:1fr}
@@ -269,6 +298,7 @@ footer{background:var(--verde); color:rgba(255,255,255,.85); padding:2.5rem 0 1.
   .barra .btn-zap{display:none}
   .cards{grid-template-columns:1fr}
   .etapas{grid-template-columns:1fr}
+  .posts-grid{grid-template-columns:1fr}
   .numeros{grid-template-columns:1fr 1fr}
 }
 @media (prefers-reduced-motion:reduce){
@@ -458,6 +488,138 @@ footer{background:var(--verde); color:rgba(255,255,255,.85); padding:2.5rem 0 1.
       <div class="etapa"><b>ETAPA 03</b><h3>Reparo</h3><p>Execução do serviço aprovado, com peças originais e registro das intervenções.</p></div>
       <div class="etapa"><b>ETAPA 04</b><h3>Testes</h3><p>Teste de estanqueidade, imagem e funcionamento antes da liberação.</p></div>
       <div class="etapa"><b>ETAPA 05</b><h3>Laudo e entrega</h3><p>Entrega do aparelho com laudo técnico e orientações para a equipe.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== REDES SOCIAIS / POSTS ===================== -->
+<section style="background:var(--papel); border-top:1px solid var(--linha)">
+  <div class="wrap">
+    <div class="cabeca reveal">
+      <p class="eyebrow">Acompanhe nossas redes</p>
+      <h2>Posts recentes</h2>
+      <p>Dicas, cases e novidades sobre manutenção de equipamentos endoscópicos.</p>
+    </div>
+    <div class="posts-grid reveal">
+      <!-- POST 1: Manutenção Preventiva -->
+      <article class="post-card">
+        <div class="post-cabeca" style="background:#4A5350">
+          <svg class="post-logo-mini" viewBox="0 0 64 64" aria-hidden="true">
+            <circle cx="32" cy="32" r="28" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2"/>
+            <path d="M32 10 50 18 32 26 14 18z" fill="rgba(255,255,255,.6)"/>
+            <path d="M22 23v8c0 3 4.5 5.5 10 5.5s10-2.5 10-5.5v-8" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
+          </svg>
+          <h4 style="margin:0; color:#fff; font-size:.75rem; letter-spacing:.08em; font-weight:700">ACADEMIA DA ENDOSCOPIA</h4>
+        </div>
+        <div class="post-visual" style="background:#D1E5C8">
+          <svg viewBox="0 0 100 100" fill="none" stroke="#4A7C59" stroke-width="3.5" stroke-linecap="round" width="60" height="60">
+            <circle cx="35" cy="45" r="8"/>
+            <path d="M60 25L45 40M60 40L50 50"/>
+            <path d="M25 65L75 65"/>
+          </svg>
+          <h3 style="margin:1.2rem 0 .4rem; color:#4A5350; font-size:1.15rem; font-weight:700">Manutenção Preventiva</h3>
+          <p style="margin:0 0 1.2rem; color:#667068; font-size:.95rem">Evite paradas no meio do procedimento</p>
+          <a href="https://wa.me/5521987421073" class="btn-post" style="background:#2E9E4F; color:#fff">Saiba mais</a>
+        </div>
+        <div class="post-rodape">
+          <div style="display:grid; gap:.3rem">
+            <strong style="color:#4A7C59; font-size:.85rem">Sergio Almeida • Diretor</strong>
+            <div style="display:flex; gap:.8rem; font-size:.75rem; color:#667068; flex-wrap:wrap">
+              <span>📞 Tel: 21 98742-1073</span>
+              <span>💬 WhatsApp: 21 98207-5767</span>
+            </div>
+            <div style="display:flex; gap:.8rem; font-size:.75rem; color:#667068; flex-wrap:wrap; margin-top:.3rem">
+              <a href="mailto:academiadaendoscopia@gmail.com" style="text-decoration:none; color:#667068">✉️ academiadaendoscopia@gmail.com</a>
+            </div>
+            <div style="display:flex; gap:.6rem; margin-top:.4rem; font-size:.7rem">
+              <a href="https://instagram.com/academiadaendoscopia" target="_blank" rel="noopener" title="Instagram" style="color:#667068; text-decoration:none">📷 @academiadaendoscopia</a>
+              <a href="https://linkedin.com/company/academiadaendoscopia" target="_blank" rel="noopener" title="LinkedIn" style="color:#667068; text-decoration:none">in/academiadaendoscopia</a>
+              <a href="https://facebook.com/academiadaendoscopia" target="_blank" rel="noopener" title="Facebook" style="color:#667068; text-decoration:none">f/academiadaendoscopia</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- POST 2: Treinamento -->
+      <article class="post-card">
+        <div class="post-cabeca" style="background:#E8F5E3">
+          <svg class="post-logo-mini" viewBox="0 0 64 64" aria-hidden="true">
+            <circle cx="32" cy="32" r="28" fill="none" stroke="#1F6F3C" stroke-width="2" opacity=".5"/>
+            <path d="M32 10 50 18 32 26 14 18z" fill="#1F6F3C"/>
+            <path d="M22 23v8c0 3 4.5 5.5 10 5.5s10-2.5 10-5.5v-8" fill="none" stroke="#2E9E4F" stroke-width="2"/>
+          </svg>
+          <h4 style="margin:0; color:#1F6F3C; font-size:.75rem; letter-spacing:.08em; font-weight:700">ACADEMIA DA ENDOSCOPIA</h4>
+        </div>
+        <div class="post-visual" style="background:#D1E5C8">
+          <svg viewBox="0 0 100 100" fill="none" stroke="#2E9E4F" stroke-width="3.5" stroke-linecap="round" width="60" height="60">
+            <path d="M30 50L50 35L70 50"/>
+            <rect x="30" y="50" width="40" height="32" rx="3"/>
+            <circle cx="42" cy="62" r="3" fill="#2E9E4F"/>
+            <circle cx="58" cy="62" r="3" fill="#2E9E4F"/>
+            <path d="M50 50v32"/>
+          </svg>
+          <h3 style="margin:1.2rem 0 .4rem; color:#1F6F3C; font-size:1.15rem; font-weight:700">Treinamento</h3>
+          <p style="margin:0 0 1.2rem; color:#4A7C59; font-size:.95rem">Capacite sua equipe técnica</p>
+          <a href="https://wa.me/5521987421073" class="btn-post" style="background:#2E9E4F; color:#fff">Saiba mais</a>
+        </div>
+        <div class="post-rodape">
+          <div style="display:grid; gap:.3rem">
+            <strong style="color:#1F6F3C; font-size:.85rem">Sergio Almeida • Diretor</strong>
+            <div style="display:flex; gap:.8rem; font-size:.75rem; color:#4A7C59; flex-wrap:wrap">
+              <span>📞 Tel: 21 98742-1073</span>
+              <span>💬 WhatsApp: 21 98207-5767</span>
+            </div>
+            <div style="display:flex; gap:.8rem; font-size:.75rem; color:#4A7C59; flex-wrap:wrap; margin-top:.3rem">
+              <a href="mailto:academiadaendoscopia@gmail.com" style="text-decoration:none; color:#4A7C59">✉️ academiadaendoscopia@gmail.com</a>
+            </div>
+            <div style="display:flex; gap:.6rem; margin-top:.4rem; font-size:.7rem">
+              <a href="https://instagram.com/academiadaendoscopia" target="_blank" rel="noopener" title="Instagram" style="color:#4A7C59; text-decoration:none">📷 @academiadaendoscopia</a>
+              <a href="https://linkedin.com/company/academiadaendoscopia" target="_blank" rel="noopener" title="LinkedIn" style="color:#4A7C59; text-decoration:none">in/academiadaendoscopia</a>
+              <a href="https://facebook.com/academiadaendoscopia" target="_blank" rel="noopener" title="Facebook" style="color:#4A7C59; text-decoration:none">f/academiadaendoscopia</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- POST 3: Institucional -->
+      <article class="post-card">
+        <div class="post-cabeca" style="background:#667068">
+          <svg class="post-logo-mini" viewBox="0 0 64 64" aria-hidden="true">
+            <circle cx="32" cy="32" r="28" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2"/>
+            <path d="M32 10 50 18 32 26 14 18z" fill="rgba(255,255,255,.6)"/>
+            <path d="M22 23v8c0 3 4.5 5.5 10 5.5s10-2.5 10-5.5v-8" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
+          </svg>
+          <h4 style="margin:0; color:#fff; font-size:.75rem; letter-spacing:.08em; font-weight:700">ACADEMIA DA ENDOSCOPIA</h4>
+        </div>
+        <div class="post-visual" style="background:#D1E5C8">
+          <svg viewBox="0 0 100 100" fill="none" stroke="#2E9E4F" stroke-width="3.5" stroke-linecap="round" width="60" height="60">
+            <rect x="25" y="30" width="50" height="48" rx="4"/>
+            <path d="M40 30v-10M60 30v-10"/>
+            <path d="M50 30v48M35 48h30M35 62h30"/>
+            <circle cx="42" cy="55" r="3" fill="#2E9E4F"/>
+          </svg>
+          <h3 style="margin:1.2rem 0 .4rem; color:#505654; font-size:1.15rem; font-weight:700">Institucional</h3>
+          <p style="margin:0 0 1.2rem; color:#667068; font-size:.95rem">Quem somos - Academia da Endoscopia</p>
+          <a href="#sobre" class="btn-post" style="background:#667068; color:#fff">Saiba mais</a>
+        </div>
+        <div class="post-rodape">
+          <div style="display:grid; gap:.3rem">
+            <strong style="color:#667068; font-size:.85rem">Sergio Almeida • Diretor</strong>
+            <div style="display:flex; gap:.8rem; font-size:.75rem; color:#667068; flex-wrap:wrap">
+              <span>📞 Tel: 21 98742-1073</span>
+              <span>💬 WhatsApp: 21 98207-5767</span>
+            </div>
+            <div style="display:flex; gap:.8rem; font-size:.75rem; color:#667068; flex-wrap:wrap; margin-top:.3rem">
+              <a href="mailto:academiadaendoscopia@gmail.com" style="text-decoration:none; color:#667068">✉️ academiadaendoscopia@gmail.com</a>
+            </div>
+            <div style="display:flex; gap:.6rem; margin-top:.4rem; font-size:.7rem">
+              <a href="https://instagram.com/academiadaendoscopia" target="_blank" rel="noopener" title="Instagram" style="color:#667068; text-decoration:none">📷 @academiadaendoscopia</a>
+              <a href="https://linkedin.com/company/academiadaendoscopia" target="_blank" rel="noopener" title="LinkedIn" style="color:#667068; text-decoration:none">in/academiadaendoscopia</a>
+              <a href="https://facebook.com/academiadaendoscopia" target="_blank" rel="noopener" title="Facebook" style="color:#667068; text-decoration:none">f/academiadaendoscopia</a>
+            </div>
+          </div>
+        </div>
+      </article>
     </div>
   </div>
 </section>
