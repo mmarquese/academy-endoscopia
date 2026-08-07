@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Academia da Endoscopia — Manutenção em equipamentos médicos hospitalares</title>
+<meta name="description" content="Manutenção preventiva, corretiva, calibração, laudo técnico e treinamento em endoscópios e equipamentos médicos hospitalares. Rio de Janeiro — RJ.">
+<meta name="theme-color" content="#1F6F3C">
+<meta property="og:title" content="Academia da Endoscopia">
+<meta property="og:description" content="Aprendendo, ensinando e alcançando a excelência em manutenção e treinamento em endoscopia.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   ACADEMIA DA ENDOSCOPIA — site institucional (single file)
+   Tokens de marca
+   ============================================================ */
+:root{
+  --verde:        #1F6F3C;   /* verde institucional (logo)      */
+  --verde-vivo:   #2E9E4F;   /* verde de ação / botões          */
+  --verde-claro:  #A9DC8D;   /* campo claro do material gráfico */
+  --verde-tenue:  #EAF5E4;   /* fundo suave                     */
+  --grafite:      #4A5350;   /* cinza-chumbo dos posts          */
+  --tinta:        #1B2320;   /* texto principal                 */
+  --tinta-suave:  #55605C;   /* texto secundário                */
+  --papel:        #F6F8F5;   /* fundo da página                 */
+  --branco:       #FFFFFF;
+  --linha:        #DCE4DC;
+
+  --display: 'Archivo', system-ui, sans-serif;
+  --corpo:   'Inter', system-ui, sans-serif;
+
+  --raio: 14px;
+  --sombra: 0 1px 2px rgba(27,35,32,.06), 0 12px 32px -18px rgba(27,35,32,.35);
+  --largura: 1180px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:88px}
+body{
+  margin:0; background:var(--papel); color:var(--tinta);
+  font-family:var(--corpo); font-size:17px; line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%; display:block}
+a{color:inherit}
+.wrap{width:min(100% - 40px, var(--largura)); margin-inline:auto}
+
+h1,h2,h3{font-family:var(--display); line-height:1.08; letter-spacing:-.02em; margin:0}
+h1{font-size:clamp(2.3rem, 5.2vw, 3.9rem); font-weight:800}
+h2{font-size:clamp(1.8rem, 3.6vw, 2.6rem); font-weight:700}
+h3{font-size:1.15rem; font-weight:700; letter-spacing:-.01em}
+p{margin:0 0 1rem}
+
+.eyebrow{
+  font-family:var(--display); font-size:.78rem; font-weight:700;
+  letter-spacing:.22em; text-transform:uppercase; color:var(--verde);
+  margin:0 0 .7rem;
+}
+
+/* ---------- Botões ---------- */
+.btn{
+  display:inline-flex; align-items:center; gap:.6rem;
+  font-family:var(--display); font-weight:700; font-size:1rem;
+  padding:.95rem 1.5rem; border-radius:999px; text-decoration:none;
+  border:2px solid transparent; cursor:pointer;
+  transition:transform .18s ease, background .18s ease, box-shadow .18s ease;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-zap{background:var(--verde-vivo); color:#fff; box-shadow:0 10px 24px -12px rgba(46,158,79,.9)}
+.btn-zap:hover{background:#25863F}
+.btn-linha{border-color:var(--verde); color:var(--verde); background:transparent}
+.btn-linha:hover{background:var(--verde); color:#fff}
+.btn-fantasma{border-color:rgba(255,255,255,.55); color:#fff}
+.btn-fantasma:hover{background:#fff; color:var(--verde)}
+.btn svg{width:20px; height:20px; flex:none}
+:focus-visible{outline:3px solid var(--verde-vivo); outline-offset:3px; border-radius:6px}
+
+/* ---------- Cabeçalho ---------- */
+header{
+  position:sticky; top:0; z-index:50; background:rgba(255,255,255,.94);
+  backdrop-filter:saturate(1.4) blur(10px); border-bottom:1px solid var(--linha);
+}
+.barra{display:flex; align-items:center; gap:1.4rem; padding:.7rem 0; min-height:72px}
+.marca{display:flex; align-items:center; gap:.7rem; text-decoration:none; margin-right:auto}
+.marca svg{width:44px; height:44px; flex:none}
+.marca b{
+  font-family:var(--display); font-weight:800; font-size:1.02rem; line-height:1.05;
+  letter-spacing:-.01em; display:block; text-transform:uppercase;
+}
+.marca span{display:block; font-size:.68rem; color:var(--tinta-suave); letter-spacing:.06em}
+nav.menu{display:flex; gap:1.6rem}
+nav.menu a{
+  text-decoration:none; font-weight:600; font-size:.97rem; color:var(--tinta-suave);
+  padding:.3rem 0; border-bottom:2px solid transparent;
+}
+nav.menu a:hover, nav.menu a.ativo{color:var(--verde); border-color:var(--verde)}
+.hamburguer{
+  display:none; background:none; border:1px solid var(--linha); border-radius:10px;
+  width:44px; height:44px; cursor:pointer; align-items:center; justify-content:center;
+}
+.hamburguer span{display:block; width:20px; height:2px; background:var(--tinta); position:relative}
+.hamburguer span::before,.hamburguer span::after{
+  content:''; position:absolute; left:0; width:20px; height:2px; background:var(--tinta);
+}
+.hamburguer span::before{top:-6px} .hamburguer span::after{top:6px}
+
+/* ---------- Hero ---------- */
+.hero{position:relative; overflow:hidden; background:var(--verde-tenue)}
+.hero::after{ /* campo verde à direita */
+  content:''; position:absolute; inset:0 0 0 52%;
+  background:linear-gradient(155deg, var(--verde) 0%, #14532B 100%);
+}
+.hero-grid{position:relative; z-index:2; display:grid; grid-template-columns:1.05fr .95fr; gap:3rem; align-items:center; padding:4.5rem 0 4rem}
+.hero h1 span{color:var(--verde)}
+.hero p.lead{font-size:1.1rem; color:var(--tinta-suave); max-width:46ch; margin-top:1.2rem}
+.hero-acoes{display:flex; flex-wrap:wrap; gap:.8rem; margin-top:1.8rem}
+.selos{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:2rem}
+.selo{
+  font-size:.8rem; font-weight:600; color:var(--verde);
+  background:#fff; border:1px solid var(--linha); border-radius:999px; padding:.4rem .85rem;
+}
+/* painel do lado direito */
+.painel{color:#fff}
+.painel .eyebrow{color:var(--verde-claro)}
+.painel h2{font-size:clamp(1.5rem,2.4vw,2rem); margin-bottom:1rem}
+.painel ul{list-style:none; padding:0; margin:1.4rem 0 0; display:grid; gap:.7rem}
+.painel li{display:flex; gap:.65rem; align-items:flex-start; font-size:.97rem; color:rgba(255,255,255,.92)}
+.painel li svg{width:19px; height:19px; flex:none; margin-top:.25rem; color:var(--verde-claro)}
+
+/* assinatura: traço do endoscópio */
+.tubo{position:absolute; inset:auto 0 -2px 0; z-index:3; pointer-events:none}
+.tubo path{fill:none; stroke:var(--verde-claro); stroke-width:2.5; stroke-linecap:round;
+  stroke-dasharray:1400; stroke-dashoffset:1400; animation:tracar 2.6s ease-out .3s forwards}
+@keyframes tracar{to{stroke-dashoffset:0}}
+
+/* ---------- Seções ---------- */
+section{padding:5rem 0}
+.cabeca{max-width:60ch; margin-bottom:2.6rem}
+.cabeca p{color:var(--tinta-suave)}
+
+/* Sobre */
+.sobre{background:var(--branco); border-block:1px solid var(--linha)}
+.sobre-grid{display:grid; grid-template-columns:1.2fr .8fr; gap:3rem; align-items:start}
+.proposito{
+  background:var(--verde-tenue); border:1px solid #CFE6C4; border-radius:var(--raio);
+  padding:1.8rem;
+}
+.proposito h3{color:var(--verde); margin-bottom:.6rem}
+.numeros{display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:2rem}
+.numero b{font-family:var(--display); font-size:2rem; color:var(--verde); display:block; line-height:1}
+.numero span{font-size:.85rem; color:var(--tinta-suave)}
+
+/* Serviços */
+.cards{display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem}
+.card{
+  background:var(--branco); border:1px solid var(--linha); border-radius:var(--raio);
+  padding:1.6rem; box-shadow:var(--sombra);
+  transition:transform .2s ease, border-color .2s ease;
+}
+.card:hover{transform:translateY(-4px); border-color:var(--verde-claro)}
+.card .ico{
+  width:46px; height:46px; border-radius:12px; background:var(--verde);
+  display:grid; place-items:center; color:#fff; margin-bottom:1rem;
+}
+.card .ico svg{width:24px; height:24px}
+.card p{font-size:.95rem; color:var(--tinta-suave); margin:0}
+.card h3{margin-bottom:.5rem}
+
+/* Processo */
+.processo{background:var(--grafite); color:#fff}
+.processo .cabeca p{color:rgba(255,255,255,.75)}
+.processo .eyebrow{color:var(--verde-claro)}
+.etapas{display:grid; grid-template-columns:repeat(5,1fr); gap:1rem; counter-reset:etapa}
+.etapa{border-top:2px solid rgba(255,255,255,.25); padding-top:1rem}
+.etapa b{
+  font-family:var(--display); font-size:.8rem; letter-spacing:.15em;
+  color:var(--verde-claro); display:block; margin-bottom:.5rem;
+}
+.etapa h3{font-size:1.02rem; margin-bottom:.35rem}
+.etapa p{font-size:.88rem; color:rgba(255,255,255,.72); margin:0}
+
+/* Contato */
+.contato-grid{display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; align-items:start}
+.pessoas{display:grid; gap:.9rem}
+.pessoa{
+  display:flex; align-items:center; gap:1rem; background:var(--branco);
+  border:1px solid var(--linha); border-radius:var(--raio); padding:1rem 1.2rem;
+}
+.avatar{
+  width:44px; height:44px; border-radius:50%; background:var(--verde-tenue);
+  color:var(--verde); display:grid; place-items:center; font-family:var(--display);
+  font-weight:800; flex:none;
+}
+.pessoa b{display:block; font-family:var(--display)}
+.pessoa span{font-size:.85rem; color:var(--tinta-suave)}
+.pessoa a{
+  margin-left:auto; text-decoration:none; font-weight:600; font-size:.9rem;
+  color:var(--verde-vivo); white-space:nowrap;
+}
+.pessoa a:hover{text-decoration:underline}
+.canais{margin-top:1.2rem; display:grid; gap:.5rem; font-size:.95rem}
+.canais a{display:flex; align-items:center; gap:.6rem; text-decoration:none; color:var(--tinta-suave)}
+.canais a:hover{color:var(--verde)}
+.canais svg{width:18px; height:18px; color:var(--verde)}
+
+form{background:var(--branco); border:1px solid var(--linha); border-radius:var(--raio); padding:1.8rem; box-shadow:var(--sombra)}
+.campo{margin-bottom:1rem}
+label{display:block; font-size:.85rem; font-weight:600; margin-bottom:.35rem}
+input,select,textarea{
+  width:100%; font:inherit; font-size:.97rem; padding:.8rem .9rem;
+  border:1px solid var(--linha); border-radius:10px; background:#FBFCFB; color:var(--tinta);
+}
+input:focus,select:focus,textarea:focus{border-color:var(--verde-vivo); background:#fff; outline:none}
+textarea{min-height:110px; resize:vertical}
+form .btn{width:100%; justify-content:center; margin-top:.4rem}
+.aviso{font-size:.8rem; color:var(--tinta-suave); margin:.8rem 0 0; text-align:center}
+
+/* Rodapé */
+footer{background:var(--verde); color:rgba(255,255,255,.85); padding:2.5rem 0 1.6rem; font-size:.9rem}
+.rodape-topo{display:flex; flex-wrap:wrap; gap:1.5rem; justify-content:space-between; align-items:center; padding-bottom:1.5rem; border-bottom:1px solid rgba(255,255,255,.2)}
+.rodape-marca{display:flex; align-items:center; gap:.8rem; color:#fff}
+.rodape-marca svg{width:40px; height:40px}
+.rodape-marca b{font-family:var(--display); text-transform:uppercase; font-size:.95rem; display:block}
+.rodape-marca span{font-size:.75rem; color:rgba(255,255,255,.75)}
+.sociais{display:flex; gap:.6rem}
+.sociais a{
+  width:40px; height:40px; border-radius:50%; border:1px solid rgba(255,255,255,.35);
+  display:grid; place-items:center; color:#fff; text-decoration:none;
+}
+.sociais a:hover{background:#fff; color:var(--verde)}
+.sociais svg{width:19px; height:19px}
+.rodape-base{display:flex; flex-wrap:wrap; gap:.6rem; justify-content:space-between; padding-top:1.2rem; font-size:.82rem}
+
+/* Botão flutuante */
+.flutuante{
+  position:fixed; right:20px; bottom:20px; z-index:60;
+  width:58px; height:58px; border-radius:50%; background:#25D366; color:#fff;
+  display:grid; place-items:center; text-decoration:none;
+  box-shadow:0 12px 28px -8px rgba(0,0,0,.4);
+  transition:transform .2s ease;
+}
+.flutuante:hover{transform:scale(1.08)}
+.flutuante svg{width:30px; height:30px}
+
+/* Revelação em scroll */
+.reveal{opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease}
+.reveal.visivel{opacity:1; transform:none}
+
+/* ---------- Responsivo ---------- */
+@media (max-width:960px){
+  .hero::after{inset:auto 0 0 0; height:46%}
+  .hero-grid{grid-template-columns:1fr; padding:3.2rem 0 3rem; gap:2.2rem}
+  .sobre-grid,.contato-grid{grid-template-columns:1fr}
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .etapas{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:700px){
+  nav.menu{
+    display:none; position:absolute; top:100%; left:0; right:0; background:#fff;
+    flex-direction:column; gap:0; padding:.5rem 20px 1rem; border-bottom:1px solid var(--linha);
+  }
+  nav.menu.aberto{display:flex}
+  nav.menu a{padding:.85rem 0; border-bottom:1px solid var(--linha)}
+  .hamburguer{display:flex}
+  .barra{position:relative}
+  .barra .btn-zap{display:none}
+  .cards{grid-template-columns:1fr}
+  .etapas{grid-template-columns:1fr}
+  .numeros{grid-template-columns:1fr 1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important; transition:none !important}
+  html{scroll-behavior:auto}
+  .reveal{opacity:1; transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== CABEÇALHO ===================== -->
+<header>
+  <div class="wrap barra">
+    <a class="marca" href="#inicio" aria-label="Academia da Endoscopia — início">
+      <!-- Marca: capa de formatura + tubo do endoscópio. Para usar o logo oficial,
+           troque este <svg> por: <img src="logo.png" alt="Academia da Endoscopia"> -->
+      <svg viewBox="0 0 64 64" role="img" aria-hidden="true">
+        <circle cx="32" cy="32" r="30" fill="none" stroke="#A9DC8D" stroke-width="3"/>
+        <path d="M32 12 52 21 32 30 12 21z" fill="#1F6F3C"/>
+        <path d="M20 25v9c0 4 5.4 7 12 7s12-3 12-7v-9" fill="none" stroke="#4A5350" stroke-width="3" stroke-linecap="round"/>
+        <path d="M32 41v8c0 5-7 5-7 10" fill="none" stroke="#2E9E4F" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="25" cy="59" r="3" fill="#2E9E4F"/>
+      </svg>
+      <span>
+        <b>Academia da Endoscopia</b>
+        <span>Treinamento &amp; Manutenção em Endoscopia</span>
+      </span>
+    </a>
+
+    <nav class="menu" id="menu">
+      <a href="#inicio" class="ativo">Início</a>
+      <a href="#sobre">Sobre nós</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#processo">Como trabalhamos</a>
+      <a href="#contato">Contato</a>
+    </nav>
+
+    <a class="btn btn-zap" href="https://wa.me/5521982075767?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20falar%20com%20a%20Academia%20da%20Endoscopia." target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.6-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-1 1-1.3 2.4-.5 4.1.8 1.7 1.9 3.2 3.5 4.5 2.5 2.1 4.4 2.1 5.6 1.9.7-.1 1.8-.8 2.1-1.5.3-.8.3-1.4.2-1.5-.1-.1-.3-.2-.5-.3z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
+      Fale no WhatsApp
+    </a>
+
+    <button class="hamburguer" id="btnMenu" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu"><span></span></button>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero" id="inicio" style="padding:0">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Rio de Janeiro • RJ</p>
+      <h1>Manutenção em <span>equipamentos médicos</span> hospitalares</h1>
+      <p class="lead">
+        Manutenção preventiva, corretiva e calibração de endoscópios e equipamentos
+        hospitalares — com laudo técnico, rastreabilidade e conformidade com a ANVISA.
+      </p>
+      <div class="hero-acoes">
+        <a class="btn btn-zap" href="https://wa.me/5521982075767?text=Ol%C3%A1%21%20Gostaria%20de%20solicitar%20um%20atendimento%20t%C3%A9cnico." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-5.8c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.6-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-1 1-1.3 2.4-.5 4.1.8 1.7 1.9 3.2 3.5 4.5 2.5 2.1 4.4 2.1 5.6 1.9.7-.1 1.8-.8 2.1-1.5.3-.8.3-1.4.2-1.5-.1-.1-.3-.2-.5-.3z"/></svg>
+          (21) 98207-5767
+        </a>
+        <a class="btn btn-linha" href="#servicos">Ver serviços</a>
+      </div>
+      <div class="selos">
+        <span class="selo">Laudo técnico certificado</span>
+        <span class="selo">Conformidade ANVISA</span>
+        <span class="selo">Peças originais</span>
+        <span class="selo">Atendimento em todo o RJ</span>
+      </div>
+    </div>
+
+    <div class="painel">
+      <p class="eyebrow">Sobre nós</p>
+      <h2>Aprendendo, ensinando e alcançando a excelência</h2>
+      <p style="color:rgba(255,255,255,.85); font-size:.98rem">
+        Somos referência em treinamento e manutenção técnica especializada de endoscopia
+        no estado do Rio de Janeiro. Nossa missão é garantir o funcionamento seguro,
+        preciso e certificado dos dispositivos médicos.
+      </p>
+      <ul>
+        <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg> Mais de 10 anos de experiência no setor</li>
+        <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg> Equipe técnica certificada e em capacitação constante</li>
+        <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg> Compromisso com segurança, ética e qualidade</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- assinatura visual: o traço contínuo do tubo do endoscópio -->
+  <svg class="tubo" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true" height="60">
+    <path d="M0 48 C 180 48, 220 12, 400 12 S 640 52, 820 52 S 1040 16, 1200 20"/>
+  </svg>
+</section>
+
+<!-- ===================== SOBRE ===================== -->
+<section class="sobre" id="sobre">
+  <div class="wrap sobre-grid reveal">
+    <div>
+      <p class="eyebrow">Quem somos</p>
+      <h2>Técnica, ensino e segurança do paciente no mesmo lugar</h2>
+      <p style="color:var(--tinta-suave); margin-top:1.2rem">
+        A Academia da Endoscopia nasceu da rotina de quem abre o equipamento, entende a falha
+        e devolve o aparelho pronto para o próximo procedimento. Atendemos hospitais, clínicas
+        e consultórios com manutenção especializada em endoscópios flexíveis, rígidos e nos
+        equipamentos que compõem a sala.
+      </p>
+      <p style="color:var(--tinta-suave)">
+        Além do reparo, formamos equipes: treinamos profissionais de saúde e técnicos para o
+        manuseio, o processamento e a conservação correta dos aparelhos — porque boa parte das
+        paradas não vem do desgaste, e sim do uso.
+      </p>
+      <div class="numeros">
+        <div class="numero"><b>10+</b><span>anos de atuação</span></div>
+        <div class="numero"><b>RJ</b><span>atendimento em todo o estado</span></div>
+        <div class="numero"><b>100%</b><span>serviços com laudo</span></div>
+      </div>
+    </div>
+    <aside class="proposito">
+      <h3>Nosso propósito</h3>
+      <p style="margin:0; font-size:.97rem; color:var(--tinta-suave)">
+        Capacitar, manter e transformar a operação de equipamentos médicos através de ensino
+        técnico e manutenção de excelência, contribuindo para a segurança do paciente e a
+        eficiência hospitalar.
+      </p>
+      <hr style="border:none; border-top:1px solid #CFE6C4; margin:1.4rem 0">
+      <p style="margin:0; font-family:var(--display); font-weight:700; color:var(--verde); line-height:1.25">
+        “Aprendendo, ensinando e alcançando a excelência.”
+      </p>
+    </aside>
+  </div>
+</section>
+
+<!-- ===================== SERVIÇOS ===================== -->
+<section id="servicos">
+  <div class="wrap">
+    <div class="cabeca reveal">
+      <p class="eyebrow">Nossos serviços</p>
+      <h2>Soluções completas para seus equipamentos</h2>
+      <p>Do diagnóstico ao laudo, com peças originais e garantia sobre o serviço executado.</p>
+    </div>
+    <div class="cards reveal">
+      <article class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3h-4.2A3 3 0 0 0 9.2 3H5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm-1 15-3.5-3.5 1.4-1.4L11 15.2l5.1-5.1 1.4 1.4z"/></svg></div>
+        <h3>Manutenção preventiva</h3>
+        <p>Inspeção periódica programada para evitar falhas no meio do procedimento e prolongar a vida útil do equipamento.</p>
+      </article>
+      <article class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.7 18.3 13.4 10a5.5 5.5 0 0 0-7-7l3.6 3.6-2.4 2.4L4 5.4a5.5 5.5 0 0 0 7 7l8.3 8.3a1 1 0 0 0 1.4 0l1-1a1 1 0 0 0 0-1.4z"/></svg></div>
+        <h3>Manutenção corretiva</h3>
+        <p>Reparo técnico ágil para restaurar o funcionamento, com peças originais e teste completo antes da devolução.</p>
+      </article>
+      <article class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 4a9 9 0 0 0-7.8 13.5l1.7-1A7 7 0 1 1 18.1 16l1.7 1A9 9 0 0 0 12 4zm1 4h-2v5.3a2 2 0 1 0 2 0z"/></svg></div>
+        <h3>Calibração</h3>
+        <p>Calibração certificada conforme normas técnicas e padrões de qualidade, com registro dos parâmetros aferidos.</p>
+      </article>
+      <article class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zm-1 7V3.5L18.5 9zM8 13h8v2H8zm0 4h6v2H8z"/></svg></div>
+        <h3>Laudo e relatório técnico</h3>
+        <p>Documentação técnica para auditoria, acreditação e prestação de contas junto aos órgãos reguladores.</p>
+      </article>
+      <article class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3 1 9l11 6 9-4.9V17h2V9zm0 13-6-3.3v3.6C6 18.6 8.7 20 12 20s6-1.4 6-3.7v-3.6z"/></svg></div>
+        <h3>Treinamento e capacitação</h3>
+        <p>Cursos práticos para equipes médicas e técnicas: manuseio, processamento e conservação dos endoscópios.</p>
+      </article>
+      <article class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1 3 5v6c0 5.6 3.8 10.7 9 12 5.2-1.3 9-6.4 9-12V5zm0 10.9h7c-.5 4.1-3.2 7.8-7 8.9z"/></svg></div>
+        <h3>Consultoria em conformidade</h3>
+        <p>Apoio na organização do parque de equipamentos e nas exigências da ANVISA e das normas técnicas aplicáveis.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROCESSO ===================== -->
+<section class="processo" id="processo">
+  <div class="wrap">
+    <div class="cabeca reveal">
+      <p class="eyebrow">Como trabalhamos</p>
+      <h2>Do chamado ao laudo, em cinco etapas</h2>
+      <p>Cada equipamento segue o mesmo caminho — e você acompanha em qual etapa ele está.</p>
+    </div>
+    <div class="etapas reveal">
+      <div class="etapa"><b>ETAPA 01</b><h3>Chamado</h3><p>Você descreve a ocorrência pelo WhatsApp e combinamos a retirada ou a visita técnica.</p></div>
+      <div class="etapa"><b>ETAPA 02</b><h3>Diagnóstico</h3><p>Avaliação do equipamento e orçamento detalhado, sem custo de análise.</p></div>
+      <div class="etapa"><b>ETAPA 03</b><h3>Reparo</h3><p>Execução do serviço aprovado, com peças originais e registro das intervenções.</p></div>
+      <div class="etapa"><b>ETAPA 04</b><h3>Testes</h3><p>Teste de estanqueidade, imagem e funcionamento antes da liberação.</p></div>
+      <div class="etapa"><b>ETAPA 05</b><h3>Laudo e entrega</h3><p>Entrega do aparelho com laudo técnico e orientações para a equipe.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTATO ===================== -->
+<section id="contato">
+  <div class="wrap">
+    <div class="cabeca reveal">
+      <p class="eyebrow">Contato</p>
+      <h2>Fale com nossa equipe</h2>
+      <p>Respondemos pelo WhatsApp em horário comercial. Para urgências, ligue direto no responsável técnico.</p>
+    </div>
+
+    <div class="contato-grid reveal">
+      <div>
+        <div class="pessoas">
+          <div class="pessoa">
+            <div class="avatar">SA</div>
+            <div><b>Sergio Almeida</b><span>Diretor • Responsável técnico</span></div>
+            <a href="https://wa.me/5521987421073?text=Ol%C3%A1%20Sergio%2C%20vim%20pelo%20site%20da%20Academia%20da%20Endoscopia." target="_blank" rel="noopener">(21) 98742-1073</a>
+          </div>
+          <div class="pessoa">
+            <div class="avatar">PP</div>
+            <div><b>Paulo Próspero</b><span>Comercial</span></div>
+            <a href="https://wa.me/5521976286767?text=Ol%C3%A1%20Paulo%2C%20vim%20pelo%20site%20da%20Academia%20da%20Endoscopia." target="_blank" rel="noopener">(21) 97628-6767</a>
+          </div>
+          <div class="pessoa">
+            <div class="avatar" style="background:#25D366;color:#fff">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
+            </div>
+            <div><b>WhatsApp geral</b><span>Atendimento comercial</span></div>
+            <a href="https://wa.me/5521982075767" target="_blank" rel="noopener">(21) 98207-5767</a>
+          </div>
+        </div>
+
+        <div class="canais">
+          <a href="mailto:academiadaendoscopia@gmail.com">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5z"/></svg>
+            academiadaendoscopia@gmail.com
+          </a>
+          <a href="https://instagram.com/academiadaendoscopia" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.9c-.1 3.2-1.6 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1s-3.6 0-4.9-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9C2.4 3.9 3.9 2.4 7.1 2.3 8.4 2.2 8.8 2.2 12 2.2zm0 3.2A6.6 6.6 0 1 0 18.6 12 6.6 6.6 0 0 0 12 5.4zm0 10.9A4.3 4.3 0 1 1 16.3 12 4.3 4.3 0 0 1 12 16.3zm6.9-11.1a1.5 1.5 0 1 0 1.5 1.5 1.5 1.5 0 0 0-1.5-1.5z"/></svg>
+            @academiadaendoscopia
+          </a>
+          <a href="https://linkedin.com/company/academiadaendoscopia" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.1a4.2 4.2 0 0 1 3.8-2.1c4 0 4.8 2.6 4.8 6V21h-4v-5.7c0-1.4 0-3.1-1.9-3.1s-2.2 1.5-2.2 3V21H9z"/></svg>
+            /academiadaendoscopia
+          </a>
+          <a href="#inicio">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 14.5 9 2.5 2.5 0 0 1 12 11.5z"/></svg>
+            Rio de Janeiro — RJ • atendimento em todo o estado
+          </a>
+        </div>
+      </div>
+
+      <form id="formContato" novalidate>
+        <div class="campo">
+          <label for="nome">Nome</label>
+          <input id="nome" name="nome" type="text" placeholder="Seu nome" required>
+        </div>
+        <div class="campo">
+          <label for="instituicao">Instituição</label>
+          <input id="instituicao" name="instituicao" type="text" placeholder="Hospital, clínica ou consultório">
+        </div>
+        <div class="campo">
+          <label for="assunto">Assunto</label>
+          <select id="assunto" name="assunto">
+            <option>Manutenção preventiva</option>
+            <option>Manutenção corretiva</option>
+            <option>Calibração</option>
+            <option>Laudo / relatório técnico</option>
+            <option>Treinamento e capacitação</option>
+            <option>Outro assunto</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="mensagem">Como podemos ajudar?</label>
+          <textarea id="mensagem" name="mensagem" placeholder="Descreva o equipamento e a ocorrência" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-zap">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
+          Enviar pelo WhatsApp
+        </button>
+        <p class="aviso" id="avisoForm">A mensagem abre no WhatsApp com os dados já preenchidos.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== RODAPÉ ===================== -->
+<footer>
+  <div class="wrap">
+    <div class="rodape-topo">
+      <div class="rodape-marca">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="32" cy="32" r="30" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="3"/>
+          <path d="M32 12 52 21 32 30 12 21z" fill="#fff"/>
+          <path d="M20 25v9c0 4 5.4 7 12 7s12-3 12-7v-9" fill="none" stroke="#A9DC8D" stroke-width="3" stroke-linecap="round"/>
+          <path d="M32 41v8c0 5-7 5-7 10" fill="none" stroke="#A9DC8D" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <span><b>Academia da Endoscopia</b><span>Manutenção em equipamentos médicos hospitalares</span></span>
+      </div>
+      <div class="sociais">
+        <a href="https://wa.me/5521982075767" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg></a>
+        <a href="https://instagram.com/academiadaendoscopia" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.9c-.1 3.2-1.6 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1s-3.6 0-4.9-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9C2.4 3.9 3.9 2.4 7.1 2.3 8.4 2.2 8.8 2.2 12 2.2zm0 3.2A6.6 6.6 0 1 0 18.6 12 6.6 6.6 0 0 0 12 5.4zm0 10.9A4.3 4.3 0 1 1 16.3 12 4.3 4.3 0 0 1 12 16.3zm6.9-11.1a1.5 1.5 0 1 0 1.5 1.5 1.5 1.5 0 0 0-1.5-1.5z"/></svg></a>
+        <a href="https://linkedin.com/company/academiadaendoscopia" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.1a4.2 4.2 0 0 1 3.8-2.1c4 0 4.8 2.6 4.8 6V21h-4v-5.7c0-1.4 0-3.1-1.9-3.1s-2.2 1.5-2.2 3V21H9z"/></svg></a>
+        <a href="mailto:academiadaendoscopia@gmail.com" aria-label="E-mail"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5z"/></svg></a>
+      </div>
+    </div>
+    <div class="rodape-base">
+      <span>© <span id="ano">2026</span> Academia da Endoscopia — Todos os direitos reservados.</span>
+      <span>CNPJ 00.000.000/0001-00 • Registro no Conselho Regional de Biomedicina</span>
+    </div>
+  </div>
+</footer>
+
+<a class="flutuante" href="https://wa.me/5521982075767?text=Ol%C3%A1%21%20Vim%20pelo%20site%20da%20Academia%20da%20Endoscopia." target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-5.8c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.6-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-1 1-1.3 2.4-.5 4.1.8 1.7 1.9 3.2 3.5 4.5 2.5 2.1 4.4 2.1 5.6 1.9.7-.1 1.8-.8 2.1-1.5.3-.8.3-1.4.2-1.5-.1-.1-.3-.2-.5-.3z"/></svg>
+</a>
+
+<script>
+/* Número único usado no site — trocar aqui altera o formulário */
+var WHATSAPP = '5521982075767';
+
+/* Menu mobile */
+var btnMenu = document.getElementById('btnMenu');
+var menu = document.getElementById('menu');
+btnMenu.addEventListener('click', function(){
+  var aberto = menu.classList.toggle('aberto');
+  btnMenu.setAttribute('aria-expanded', aberto);
+  btnMenu.setAttribute('aria-label', aberto ? 'Fechar menu' : 'Abrir menu');
+});
+menu.querySelectorAll('a').forEach(function(a){
+  a.addEventListener('click', function(){ menu.classList.remove('aberto'); btnMenu.setAttribute('aria-expanded', false); });
+});
+
+/* Link ativo conforme a seção visível */
+var secoes = document.querySelectorAll('section[id]');
+var links = menu.querySelectorAll('a');
+var obsMenu = new IntersectionObserver(function(entradas){
+  entradas.forEach(function(e){
+    if(!e.isIntersecting) return;
+    links.forEach(function(l){
+      l.classList.toggle('ativo', l.getAttribute('href') === '#' + e.target.id);
+    });
+  });
+}, {rootMargin:'-45% 0px -50% 0px'});
+secoes.forEach(function(s){ obsMenu.observe(s); });
+
+/* Revelação em scroll */
+var obsReveal = new IntersectionObserver(function(entradas, obs){
+  entradas.forEach(function(e){
+    if(e.isIntersecting){ e.target.classList.add('visivel'); obs.unobserve(e.target); }
+  });
+}, {threshold:.15});
+document.querySelectorAll('.reveal').forEach(function(el){ obsReveal.observe(el); });
+
+/* Formulário → WhatsApp */
+document.getElementById('formContato').addEventListener('submit', function(ev){
+  ev.preventDefault();
+  var nome = document.getElementById('nome').value.trim();
+  var inst = document.getElementById('instituicao').value.trim();
+  var assunto = document.getElementById('assunto').value;
+  var msg = document.getElementById('mensagem').value.trim();
+  var aviso = document.getElementById('avisoForm');
+
+  if(!nome || !msg){
+    aviso.textContent = 'Preencha o nome e a mensagem para continuar.';
+    aviso.style.color = '#B3261E';
+    (!nome ? document.getElementById('nome') : document.getElementById('mensagem')).focus();
+    return;
+  }
+  aviso.textContent = 'Abrindo o WhatsApp…';
+  aviso.style.color = '';
+
+  var texto =
+    'Olá! Vim pelo site da Academia da Endoscopia.\n\n' +
+    'Nome: ' + nome + '\n' +
+    (inst ? 'Instituição: ' + inst + '\n' : '') +
+    'Assunto: ' + assunto + '\n\n' + msg;
+
+  window.open('https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(texto), '_blank', 'noopener');
+});
+
+/* Ano do rodapé */
+document.getElementById('ano').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
