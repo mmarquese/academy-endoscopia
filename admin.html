@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel Admin — Academia da Endoscopia</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+:root{
+  --azul:#1B6FA8; --azul-vivo:#2E93D1; --azul-tenue:#EAF4FB; --azul-escuro:#0F4C75;
+  --tinta:#1B2320; --tinta-suave:#55605C; --papel:#F5F9FB; --linha:#DCE6EA;
+  --raio:14px; --sombra:0 1px 2px rgba(15,40,60,.06), 0 12px 32px -18px rgba(15,40,60,.35);
+  --display:'Archivo', system-ui, sans-serif; --corpo:'Inter', system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--papel); color:var(--tinta); font-family:var(--corpo); line-height:1.5}
+h1,h2,h3{font-family:var(--display); margin:0}
+.wrap{width:min(100% - 40px, 980px); margin-inline:auto}
+.btn{
+  display:inline-flex; align-items:center; gap:.5rem; font-family:var(--display); font-weight:700;
+  padding:.75rem 1.3rem; border-radius:999px; border:none; cursor:pointer; font-size:.95rem;
+  background:var(--azul-vivo); color:#fff; transition:transform .15s ease, opacity .15s ease;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn:disabled{opacity:.5; cursor:not-allowed; transform:none}
+.btn-perigo{background:#C23B3B}
+.btn-secundario{background:#fff; color:var(--azul); border:2px solid var(--azul)}
+input,textarea{
+  width:100%; font:inherit; font-size:.95rem; padding:.75rem .9rem; border:1px solid var(--linha);
+  border-radius:10px; background:#fff; color:var(--tinta);
+}
+input:focus,textarea:focus{outline:2px solid var(--azul-vivo); border-color:var(--azul-vivo)}
+label{display:block; font-size:.82rem; font-weight:600; margin-bottom:.35rem}
+
+.login-tela{min-height:100vh; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, var(--azul) 0%, var(--azul-escuro) 100%); padding:20px}
+.login-caixa{background:#fff; border-radius:var(--raio); padding:2.4rem; width:100%; max-width:400px; box-shadow:0 30px 60px -20px rgba(0,0,0,.4)}
+.login-caixa h1{font-size:1.4rem; margin-bottom:.3rem; text-align:center}
+.login-caixa p.sub{text-align:center; color:var(--tinta-suave); font-size:.9rem; margin:0 0 1.6rem}
+.erro{color:#C23B3B; font-size:.85rem; margin-top:.6rem; text-align:center}
+
+header.painel{background:var(--azul); color:#fff; padding:1.4rem 0}
+header.painel .wrap{display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap}
+header.painel h1{font-size:1.2rem}
+header.painel span{font-size:.8rem; color:rgba(255,255,255,.75); display:block}
+main{padding:2.5rem 0 4rem}
+.secao{margin-bottom:3rem}
+.secao > p.sub{color:var(--tinta-suave); margin-top:.3rem; margin-bottom:1.4rem}
+
+.slots-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:1.2rem}
+.slot-card{background:#fff; border:1px solid var(--linha); border-radius:var(--raio); padding:1.1rem; box-shadow:var(--sombra)}
+.slot-card .preview{
+  width:100%; height:140px; border-radius:10px; background:var(--azul-tenue); overflow:hidden;
+  display:grid; place-items:center; margin-bottom:.9rem; position:relative;
+}
+.slot-card .preview img{width:100%; height:100%; object-fit:cover}
+.slot-card .preview .vazio{color:var(--tinta-suave); font-size:.8rem}
+.slot-card h3{font-size:.95rem; margin-bottom:.6rem}
+.slot-card input[type="file"]{font-size:.8rem; padding:.5rem}
+.slot-card .status{font-size:.78rem; margin-top:.5rem; min-height:1em}
+
+.galeria-form{background:#fff; border:1px solid var(--linha); border-radius:var(--raio); padding:1.4rem; margin-bottom:1.4rem}
+.galeria-form .linha{display:grid; grid-template-columns:1fr 1fr auto; gap:1rem; align-items:end}
+.galeria-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:1rem}
+.galeria-item{background:#fff; border:1px solid var(--linha); border-radius:var(--raio); overflow:hidden; box-shadow:var(--sombra)}
+.galeria-item img{width:100%; height:120px; object-fit:cover; display:block}
+.galeria-item .corpo{padding:.8rem}
+.galeria-item p{margin:0 0 .6rem; font-size:.85rem; font-weight:600}
+.galeria-item .btn{font-size:.78rem; padding:.5rem .9rem; width:100%; justify-content:center}
+
+.aviso-topo{
+  background:#FFF7E6; border:1px solid #F0D48A; color:#7A5B00; border-radius:10px;
+  padding:.9rem 1.1rem; font-size:.85rem; margin-bottom:1.6rem;
+}
+.spinner{display:inline-block; width:14px; height:14px; border:2px solid rgba(255,255,255,.4); border-top-color:#fff; border-radius:50%; animation:girar .7s linear infinite}
+@keyframes girar{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<div class="login-tela" id="telaLogin">
+  <div class="login-caixa">
+    <h1>Academia da Endoscopia</h1>
+    <p class="sub">Painel administrativo — Gerenciar fotos do site</p>
+    <form id="formLogin">
+      <label for="senha">Senha</label>
+      <input id="senha" type="password" placeholder="Digite a senha" autocomplete="current-password" required>
+      <button class="btn" type="submit" id="btnEntrar" style="width:100%; justify-content:center; margin-top:1rem">Entrar</button>
+      <p class="erro" id="erroLogin"></p>
+    </form>
+  </div>
+</div>
+
+<div id="painel" style="display:none">
+  <header class="painel">
+    <div class="wrap">
+      <div>
+        <h1>Painel de Fotos</h1>
+        <span>Academia da Endoscopia</span>
+      </div>
+      <button class="btn btn-secundario" id="btnSair">Sair</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="aviso-topo">
+        As fotos trocadas aqui aparecem no site em poucos segundos — não precisa avisar ninguém, nem tocar em código.
+      </div>
+
+      <section class="secao">
+        <h2>Fotos principais do site</h2>
+        <p class="sub">Essas fotos aparecem em lugares específicos do site. Trocar aqui substitui a foto atual.</p>
+        <div class="slots-grid" id="gradeSlots"></div>
+      </section>
+
+      <section class="secao">
+        <h2>Galeria de fotos</h2>
+        <p class="sub">Adicione quantas fotos quiser — elas aparecem em uma seção de galeria no site.</p>
+
+        <div class="galeria-form">
+          <div class="linha">
+            <div>
+              <label for="galeriaLegenda">Legenda da foto</label>
+              <input id="galeriaLegenda" type="text" placeholder="Ex: Equipe em treinamento">
+            </div>
+            <div>
+              <label for="galeriaArquivo">Escolher foto</label>
+              <input id="galeriaArquivo" type="file" accept="image/*">
+            </div>
+            <button class="btn" id="btnAdicionarGaleria">Adicionar</button>
+          </div>
+          <p class="status" id="statusGaleriaForm"></p>
+        </div>
+
+        <div class="galeria-grid" id="gradeGaleria"></div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+const SUPABASE_URL = 'https://lexhnxuwruhjsytmibib.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxleGhueHV3cnVoanN5dG1pYmliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU0ODI0NzcsImV4cCI6MjEwMTA1ODQ3N30.ge_-SSqNoAagf4Eaxtqp2ekBQK9Yx3-ayedlBxD74zk';
+const TABELA = 'academia_endoscopia_photos';
+const BUCKET = 'academia-endoscopia-photos';
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const ADMIN_SALT = '962b20f1495d01a06ab977576d9fa29510f7296835e06c1da3306f0f90de9013';
+const ADMIN_HASH = '5577989f44aaa2a6f4dc2e81b2d103735700eda665797d3cbedc28fd5297cbce38dc3376ff64dc62ed3015ab96c6baea469458e738fb38c879c5ca379825d21d';
+const PBKDF2_ITERATIONS = 600000;
+const SESSION_KEY = 'academia_admin_session';
+const SESSION_DURATION_MS = 4 * 60 * 60 * 1000;
+const MAX_ATTEMPTS = 5;
+const LOCKOUT_MS = 15 * 60 * 1000;
+
+const SLOTS = [
+  { key: 'logo',        titulo: 'Logo do site' },
+  { key: 'hero',        titulo: 'Foto — Acompanhamento Online' },
+  { key: 'calibracao',  titulo: 'Foto — Calibração' },
+  { key: 'laboratorio', titulo: 'Foto — Laboratório' },
+];
+
+async function derivarChave(senha, saltHex) {
+  const enc = new TextEncoder();
+  const saltBytes = new Uint8Array(saltHex.match(/.{2}/g).map(b => parseInt(b, 16)));
+  const material = await crypto.subtle.importKey('raw', enc.encode(senha), 'PBKDF2', false, ['deriveBits']);
+  const bits = await crypto.subtle.deriveBits(
+    { name: 'PBKDF2', hash: 'SHA-512', salt: saltBytes, iterations: PBKDF2_ITERATIONS }, material, 512
+  );
+  return Array.from(new Uint8Array(bits)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function sessaoValida() {
+  try {
+    const raw = sessionStorage.getItem(SESSION_KEY);
+    if (!raw) return false;
+    const { ts } = JSON.parse(raw);
+    return Date.now() - ts < SESSION_DURATION_MS;
+  } catch { return false; }
+}
+function salvarSessao() { sessionStorage.setItem(SESSION_KEY, JSON.stringify({ ts: Date.now() })); }
+function limparSessao() { sessionStorage.removeItem(SESSION_KEY); }
+
+const telaLogin = document.getElementById('telaLogin');
+const painel = document.getElementById('painel');
+const formLogin = document.getElementById('formLogin');
+const erroLogin = document.getElementById('erroLogin');
+const btnEntrar = document.getElementById('btnEntrar');
+
+function mostrarPainel() {
+  telaLogin.style.display = 'none';
+  painel.style.display = 'block';
+  carregarTudo();
+}
+
+if (sessaoValida()) mostrarPainel();
+
+formLogin.addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  const senha = document.getElementById('senha').value;
+  const tentativas = Number(localStorage.getItem('academia_login_tentativas') || '0');
+  const bloqueadoAte = Number(localStorage.getItem('academia_login_bloqueio') || '0');
+
+  if (bloqueadoAte > Date.now()) {
+    const min = Math.ceil((bloqueadoAte - Date.now()) / 60000);
+    erroLogin.textContent = `Muitas tentativas. Tente novamente em ${min} minuto(s).`;
+    return;
+  }
+
+  btnEntrar.disabled = true;
+  btnEntrar.innerHTML = '<span class="spinner"></span> Verificando…';
+  erroLogin.textContent = '';
+
+  const hash = await derivarChave(senha.trim(), ADMIN_SALT);
+
+  if (hash === ADMIN_HASH) {
+    localStorage.removeItem('academia_login_tentativas');
+    localStorage.removeItem('academia_login_bloqueio');
+    salvarSessao();
+    mostrarPainel();
+  } else {
+    const proximo = tentativas + 1;
+    localStorage.setItem('academia_login_tentativas', String(proximo));
+    if (proximo >= MAX_ATTEMPTS) {
+      const ate = Date.now() + LOCKOUT_MS;
+      localStorage.setItem('academia_login_bloqueio', String(ate));
+      erroLogin.textContent = `Muitas tentativas. Tente novamente em ${LOCKOUT_MS / 60000} minutos.`;
+    } else {
+      erroLogin.textContent = `Senha incorreta. Tentativas restantes: ${MAX_ATTEMPTS - proximo}`;
+    }
+  }
+  btnEntrar.disabled = false;
+  btnEntrar.textContent = 'Entrar';
+  document.getElementById('senha').value = '';
+});
+
+document.getElementById('btnSair').addEventListener('click', () => {
+  limparSessao();
+  location.reload();
+});
+
+async function carregarTudo() {
+  await Promise.all([renderSlots(), renderGaleria()]);
+}
+
+async function buscarFotoPorSlot(slotKey) {
+  const { data } = await supabase.from(TABELA).select('*').eq('slot', slotKey).maybeSingle();
+  return data;
+}
+
+async function renderSlots() {
+  const grade = document.getElementById('gradeSlots');
+  grade.innerHTML = '';
+  for (const slot of SLOTS) {
+    const foto = await buscarFotoPorSlot(slot.key);
+    const card = document.createElement('div');
+    card.className = 'slot-card';
+    card.innerHTML = `
+      <div class="preview">${foto ? `<img src="${foto.image_url}" alt="${slot.titulo}">` : `<span class="vazio">Sem foto ainda</span>`}</div>
+      <h3>${slot.titulo}</h3>
+      <input type="file" accept="image/*" data-slot="${slot.key}">
+      <p class="status" data-status="${slot.key}"></p>
+    `;
+    grade.appendChild(card);
+    card.querySelector('input[type="file"]').addEventListener('change', (ev) => trocarFotoSlot(slot.key, ev.target.files[0]));
+  }
+}
+
+async function trocarFotoSlot(slotKey, file) {
+  if (!file) return;
+  const status = document.querySelector(`[data-status="${slotKey}"]`);
+  status.textContent = 'Enviando…';
+  status.style.color = 'var(--tinta-suave)';
+  try {
+    const ext = file.name.split('.').pop() || 'jpg';
+    const nomeArquivo = `${slotKey}-${Date.now()}.${ext}`;
+    const { error: erroUpload } = await supabase.storage.from(BUCKET).upload(nomeArquivo, file, { cacheControl: '3600', upsert: false });
+    if (erroUpload) throw erroUpload;
+    const { data: urlData } = supabase.storage.from(BUCKET).getPublicUrl(nomeArquivo);
+
+    const existente = await buscarFotoPorSlot(slotKey);
+    if (existente) {
+      await supabase.from(TABELA).update({ image_url: urlData.publicUrl, label: slotKey }).eq('id', existente.id);
+    } else {
+      await supabase.from(TABELA).insert({ slot: slotKey, label: slotKey, image_url: urlData.publicUrl });
+    }
+    status.textContent = 'Foto atualizada ✓';
+    status.style.color = '#1F8A4C';
+    renderSlots();
+  } catch (err) {
+    status.textContent = 'Erro ao enviar. Tente novamente.';
+    status.style.color = '#C23B3B';
+    console.error(err);
+  }
+}
+
+async function renderGaleria() {
+  const grade = document.getElementById('gradeGaleria');
+  const { data } = await supabase.from(TABELA).select('*').eq('slot', 'galeria').order('sort_order', { ascending: true });
+  grade.innerHTML = '';
+  (data || []).forEach((item) => {
+    const div = document.createElement('div');
+    div.className = 'galeria-item';
+    div.innerHTML = `
+      <img src="${item.image_url}" alt="${item.label}">
+      <div class="corpo">
+        <p>${item.label}</p>
+        <button class="btn btn-perigo" data-id="${item.id}">Remover</button>
+      </div>
+    `;
+    div.querySelector('button').addEventListener('click', () => removerGaleria(item.id));
+    grade.appendChild(div);
+  });
+}
+
+async function removerGaleria(id) {
+  if (!confirm('Remover essa foto da galeria?')) return;
+  await supabase.from(TABELA).delete().eq('id', id);
+  renderGaleria();
+}
+
+document.getElementById('btnAdicionarGaleria').addEventListener('click', async () => {
+  const legenda = document.getElementById('galeriaLegenda').value.trim();
+  const arquivo = document.getElementById('galeriaArquivo').files[0];
+  const status = document.getElementById('statusGaleriaForm');
+
+  if (!legenda || !arquivo) {
+    status.textContent = 'Escolha uma foto e escreva uma legenda.';
+    status.style.color = '#C23B3B';
+    return;
+  }
+  status.textContent = 'Enviando…';
+  status.style.color = 'var(--tinta-suave)';
+  try {
+    const ext = arquivo.name.split('.').pop() || 'jpg';
+    const nomeArquivo = `galeria-${Date.now()}.${ext}`;
+    const { error: erroUpload } = await supabase.storage.from(BUCKET).upload(nomeArquivo, arquivo, { cacheControl: '3600', upsert: false });
+    if (erroUpload) throw erroUpload;
+    const { data: urlData } = supabase.storage.from(BUCKET).getPublicUrl(nomeArquivo);
+
+    const { data: existentes } = await supabase.from(TABELA).select('sort_order').eq('slot', 'galeria').order('sort_order', { ascending: false }).limit(1);
+    const proximaOrdem = existentes && existentes[0] ? existentes[0].sort_order + 1 : 0;
+
+    await supabase.from(TABELA).insert({ slot: 'galeria', label: legenda, image_url: urlData.publicUrl, sort_order: proximaOrdem });
+
+    document.getElementById('galeriaLegenda').value = '';
+    document.getElementById('galeriaArquivo').value = '';
+    status.textContent = 'Foto adicionada ✓';
+    status.style.color = '#1F8A4C';
+    renderGaleria();
+  } catch (err) {
+    status.textContent = 'Erro ao enviar. Tente novamente.';
+    status.style.color = '#C23B3B';
+    console.error(err);
+  }
+});
+</script>
+</body>
+</html>
