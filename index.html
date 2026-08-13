@@ -222,12 +222,12 @@ section{padding:5rem 0}
 .etapa li::before{content:'•'; position:absolute; left:0; color:var(--azul-claro)}
 
 /* Equipamentos */
-.equipamentos-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:1.5rem}
-.equip-card{background:#fff; border:1px solid var(--linha); border-radius:var(--raio); padding:1.5rem; text-align:center; transition:transform .2s ease}
+.equipamentos-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:1.5rem}
+.equip-card{background:#fff; border:1px solid var(--linha); border-radius:var(--raio); padding:1.5rem; text-align:center; transition:transform .2s ease; overflow:hidden}
 .equip-card:hover{transform:translateY(-4px)}
 .equip-ico{width:64px; height:64px; margin:0 auto 1rem; display:grid; place-items:center; background:var(--azul-tenue); border-radius:12px; color:var(--azul-vivo)}
 .equip-ico svg{width:30px; height:30px}
-.equip-card p{font-size:.9rem; color:var(--tinta-suave); margin:0}
+.equip-card p{font-size:.9rem; color:var(--tinta-suave); margin:0; overflow-wrap:break-word; word-break:break-word; hyphens:auto}
 
 /* Avaliação / Feedback */
 .avaliacao{background:var(--branco); border-block:1px solid var(--linha)}
