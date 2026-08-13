@@ -148,8 +148,25 @@ const BUCKET = 'academia-endoscopia-photos';
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const ADMIN_SALT = '962b20f1495d01a06ab977576d9fa29510f7296835e06c1da3306f0f90de9013';
-const ADMIN_HASH = '5577989f44aaa2a6f4dc2e81b2d103735700eda665797d3cbedc28fd5297cbce38dc3376ff64dc62ed3015ab96c6baea469458e738fb38c879c5ca379825d21d';
+/* Para trocar a senha no futuro, gere um novo salt+hash rodando este comando
+   no terminal (precisa ter Node.js instalado) e substitua as duas linhas abaixo:
+
+   node -e "
+     const {webcrypto}=require('crypto'), c=require('crypto');
+     const senha='NOVA_SENHA_AQUI';
+     const saltHex=c.randomBytes(32).toString('hex');
+     (async()=>{
+       const enc=new TextEncoder();
+       const saltBytes=new Uint8Array(saltHex.match(/.{2}/g).map(b=>parseInt(b,16)));
+       const material=await webcrypto.subtle.importKey('raw',enc.encode(senha),'PBKDF2',false,['deriveBits']);
+       const bits=await webcrypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-512',salt:saltBytes,iterations:600000},material,512);
+       const hash=Array.from(new Uint8Array(bits)).map(b=>b.toString(16).padStart(2,'0')).join('');
+       console.log('SALT='+saltHex);
+       console.log('HASH='+hash);
+     })();
+   " */
+const ADMIN_SALT = '818a00c1bd2f9a0e9eebf3534e52178ce761574f748aa7dfc01a1c47f03d904b';
+const ADMIN_HASH = 'a7d40a65d0241359611e42e47847cc81fe5bb6ef144556305ec77526e995aabc838c2e2860a5da1a58e312c3e3410f70657d43d17409f5830b005f5d2ecbe901';
 const PBKDF2_ITERATIONS = 600000;
 const SESSION_KEY = 'academia_admin_session';
 const SESSION_DURATION_MS = 4 * 60 * 60 * 1000;
